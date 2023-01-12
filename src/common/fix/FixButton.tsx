@@ -1,7 +1,7 @@
 import { isDevelopment } from '@/FlyerConfig';
 import { log } from '@/FlyerLog';
 import classNames from 'classnames';
-import React, { createRef, MouseEventHandler, useEffect, useState } from 'react';
+import React, { createRef, ForwardedRef, forwardRef, MouseEventHandler, RefObject, useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import { NavLink, useNavigate } from 'react-router-dom';
 import s from './index.scss'
@@ -10,17 +10,19 @@ interface Props {
     text?: string,
     onClick?: React.MouseEventHandler<HTMLDivElement> | undefined,
     style?: React.HTMLAttributes<HTMLDivElement> | React.CSSProperties
-    to?: string
+    to?: string,
+    id?: any
 }
-const FixButton: React.FC<Props> = ({
+const FixButton = forwardRef<any, Props>(({
     text,
     onClick,
     style,
-    to
-}) => {
+    to,
+    id
+}, ref: any) => {
+    if (ref == null) ref = useRef(null);
     const navigate = useNavigate();
-    const button = createRef<HTMLDivElement>()
-    
+
     //  设置文字
     const setFontStyle = () => {
         
@@ -34,9 +36,9 @@ const FixButton: React.FC<Props> = ({
                 position: "absolute"
             }}
                 to={to}
-                key={null} 
+                key={id} 
                 children={() => null}
-                onClick = {() => {
+                onClick = {(e) => {
                     log.debug("点击导航", location)
                 }}
                 ></NavLink>
@@ -46,24 +48,27 @@ const FixButton: React.FC<Props> = ({
     }
 
     useEffect(() => {
-        const current = button.current
+        
+        const current = ref.current
         if (current != undefined) {
             current.style.position = "relative"
+            current.pathname = to  
+            current.id = id
         }
     }, [])
 
     return (
         <>
-            <div 
+            <div
                 className= { classNames(s._baseButton) }
                 onClick = {(e) => { onClick?.(e); }}
-                ref = { button }
-                style = { style}
+                ref = { ref }
+                style = { style }
             >{text}
             {needLinkTo()}
             </div>
         </>
     )
-}
+})
 
 export default FixButton

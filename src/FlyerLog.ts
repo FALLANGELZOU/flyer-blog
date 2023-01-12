@@ -15,7 +15,7 @@ const info = (message: any, ...args: any) => {
         'color: rgb(41, 184, 129);font-weight:bolder;',
         'color: rgb(59, 142, 234);font-weight:bolder;',
         'color: rgb(41, 184, 129);font-weight:bolder;',
-        ` ${message}`, args.length!=0?args:'');
+        message, args.length!=0?args:'');
 }
 
 const debug = (message: any, ...args: any) => {
@@ -25,7 +25,7 @@ const debug = (message: any, ...args: any) => {
             'color: #F273E6;font-weight:bolder;',
             'color: #FF8B13;font-weight:bolder;',
             'color: #F273E6;font-weight:bolder;',
-            ` ${message}`, args.length!=0?args:'');
+            message, args.length!=0?args:'');
     }
 }
 

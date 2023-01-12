@@ -15,7 +15,7 @@ import {
 } from 'ahooks';
 import { Drawer } from 'antd';
 import classNames from 'classnames';
-import React, { createRef, useEffect, useLayoutEffect } from 'react';
+import React, { createRef, FC, useEffect, useLayoutEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 
@@ -27,6 +27,7 @@ import { modeMap, modeMapArr } from '@/utils/modeMap';
 import { useLinkList, flyerNavList } from './config';
 import s from './index.scss';
 import FixButton from '@/common/fix/FixButton';
+import { log } from '@/FlyerLog';
 
 interface Props {
   navShow?: boolean;
@@ -48,11 +49,10 @@ const Nav: React.FC<Props> = ({ navShow, setNavShow, mode, setMode }) => {
   const modeOptions = ['rgb(19, 38, 36)', 'rgb(110, 180, 214)', 'rgb(171, 194, 208)'];
 
   const navLine = createRef<HTMLDivElement>();
-  const navButtons: React.RefObject<HTMLAnchorElement>[] = []
-  navArr.forEach(e => {
-    navButtons.push(createRef<HTMLAnchorElement>())
+  const navButtons: any[]  = []
+  flyerNavList.forEach(e => {
+    navButtons.push(useRef())
   })
-
   useEventListener(
     'mousewheel',
     event => {
@@ -74,16 +74,35 @@ const Nav: React.FC<Props> = ({ navShow, setNavShow, mode, setMode }) => {
   //  初始化，只执行一次，此时已经挂在真实dom
   useEffect(() => {
     navButtons.forEach(e => {
-      setNavLine(navLine.current, e.current)
+      setNavLine(navLine.current, e.current, true)
     })
   }, [])
 
-  const setNavLine = (navLine: HTMLDivElement | null, navButton: HTMLAnchorElement | null) => {
-    if (navLine == null || navButton == null) return
-    if (location.pathname == navButton.pathname) {
-      if (lineVisible == false) setLineVisible(true);
-      navLine.style.left = navButton.offsetLeft + "px";
+  const setNavLine = (navLine: HTMLDivElement | null, navButton: any | null, first = false) => {
+    if (navLine == null || navButton == null) {
+      log.debug("navLine或navButton为null", navLine, navButton)
+      return
     }
+    if (first) {
+      if (location.pathname == navButton.pathname) {
+        if (lineVisible == false) {
+          setLineVisible(true);
+          log.debug("显示下滑条")
+        }
+        navLine.style.left = navButton.offsetLeft + "px";
+        navLine.style.width = window.getComputedStyle(navButton).width   
+      }
+    } else {
+        if (lineVisible == false) {
+          setLineVisible(true);
+          log.debug("显示下滑条")
+        }
+        navLine.style.transform = `translateX(${navButton.offsetLeft - navLine.offsetLeft}px)`;
+        navLine.style.transitionDuration = "200ms";
+        navLine.style.width = window.getComputedStyle(navButton).width
+      }
+    
+
   }
 
   return (
@@ -96,14 +115,22 @@ const Nav: React.FC<Props> = ({ navShow, setNavShow, mode, setMode }) => {
                   text = {item.name}
                   key = {index}
                   style = {{
-                    marginLeft: "20px",
-                    marginRight: "20px"
+                    paddingLeft: "20px",
+                    paddingRight: "20px"
                   }}
                   to = {item.to}
+                  ref = { navButtons[index] }
+                  onClick = {(e) => {
+                    setNavLine(navLine.current, e.currentTarget)
+                  }}
+                  id = {index}
                 />
               )
           })
         }
+        <div className= {classNames(s.navLine)} ref = { navLine } 
+        style = {{display: lineVisible ? "block" : "none"}}
+        />
       </div>
 
     </>
