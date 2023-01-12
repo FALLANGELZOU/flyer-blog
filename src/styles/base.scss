@@ -42,3 +42,48 @@ $codeBg: var(--codeBg, rgb(37, 43, 48));
 $textColor2: var(--textColor2, rgb(167, 167, 167));
 // 行内代码
 $inlineCode: var(--inlineCode, rgb(29, 71, 67));
+
+
+
+
+//--------------------Flyer全局配置--------------------
+// 设计指导来自arco design：https://arco.design/docs/spec/style-guideline
+// 配色
+
+// sky主题
+$color_sky_primary: #82aae3;
+$color_sky_secondary: #91d8e4;
+$color_sky_tertiary: #bfeaf5;
+$color_sky_quaternary: #eafdfc;
+
+//  rainbow主题
+$color_rainbow_primary: #FFF9CA;
+$color_rainbow_secondary: #FFDEB4;
+$color_rainbow_tertiary: #FFB4B4;
+$color_rainbow_quaternary: #B2A4FF;
+
+
+// 文字大小
+
+// 段落文字大小
+$text_p_tertiary: 12px;
+$text_p_secondary: 13px;
+$text_p_primary: 14px;   // 主字号
+
+// 标题文字大小
+$text_t_small: 16px;
+$text_t_meduim: 20px;
+$text_t_large: 24px;
+
+// 头部文字大小
+$text_h_small: 36px;
+$text_h_medium: 48px;
+$text_h_large: 56px;
+
+//  字重
+$text_weight_light: 300;
+$text_weight_regular: 400;
+$text_weight_medium: 500;
+$text_weight_semibold: 600;
+
+

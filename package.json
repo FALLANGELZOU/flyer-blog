@@ -1,5 +1,5 @@
 {
-  "name": "blog-jack",
+  "name": "flyer-blog",
   "version": "2.0.0",
   "sideEffects": [
     "*.css",
@@ -34,6 +34,7 @@
     "antd": "4.19.0",
     "axios": "^0.26.1",
     "classnames": "2.3.1",
+    "colors": "^1.4.0",
     "copy-to-clipboard": "3.3.1",
     "dayjs": "1.10.8",
     "echarts": "^5.3.1",
@@ -51,6 +52,7 @@
     "sanitize-html": "^2.7.0"
   },
   "devDependencies": {
+    "@types/colors": "^1.2.1",
     "@babel/core": "7.17.5",
     "@babel/plugin-syntax-dynamic-import": "7.8.3",
     "@babel/plugin-transform-runtime": "7.17.0",

@@ -7,6 +7,7 @@ import link from './link';
 import mode from './mode';
 import name from './name';
 import navShow from './navShow';
+import nav from './nav';
 
 export default combineReducers({
   navShow,
@@ -15,5 +16,6 @@ export default combineReducers({
   email,
   link,
   name,
-  mode
+  mode,
+  nav
 });

@@ -28,9 +28,20 @@ export const useLinkList = () => {
     { name: '关于', to: '/about' }
   ];
 
+
+
   return {
     navArr,
     secondNavArr,
     mobileNavArr
   };
 };
+
+export const flyerNavList = [
+  { name: '主页', to: '/' },
+  { name: '文章', to: '/articles' },
+  { name: '作品', to: '/show' },
+  { name: '技能树', to: '/' },
+  { name: '日志', to: '/log' },
+  { name: '关于', to: '/about' }
+]

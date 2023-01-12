@@ -1,5 +1,5 @@
-@import '../../styles/base.scss';
-@import '../../styles/style.scss';
+@import "../../styles/base.scss";
+@import "../../styles/style.scss";
 
 .baseBtn {
   height: 44px;
@@ -24,12 +24,27 @@
 .nav {
   width: 100%;
   height: $navHeight;
-  background-color: $themeColor1;
+  background-color: $color_rainbow_tertiary;
   position: fixed;
   top: 0;
   z-index: 10;
   box-shadow: 0 0 18px $footerBg;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
   @extend .trans;
+
+  .navLine {
+      width: $btnWidth;
+      height: 3px;
+      border-radius: 3px;
+      background-color: $color_sky_primary;
+      position:absolute;
+      bottom: 0px;
+      left: 0px;
+  }
+  
 
   .navContent {
     position: relative;
@@ -69,7 +84,7 @@
     }
     .navActive {
       @extend .navBtn;
-      background-color: $hoverColor;
+      background-color: $color_sky_tertiary;
     }
 
     .articlesBtn {
@@ -111,6 +126,8 @@
     .articlesBtn:hover .articelsSecond {
       top: 60px;
     }
+
+  
 
     .modeBtn {
       @extend .homeAndAdmin;
@@ -185,7 +202,7 @@
     width: 100%;
     color: $textColor;
     font-size: 18rem;
-    font-family: 'dengxian';
+    font-family: "dengxian";
     width: 60rem;
     height: 34rem;
     border-radius: 10rem;

@@ -1,0 +1,23 @@
+@import "../../styles/style.scss";
+@import "../../styles/base.scss";
+
+$button_size_small: 26px;
+$button_size_medium: 32px;
+$button_size_small: 36px;
+
+._baseButton {
+  height: $button_size_medium;
+  min-width: calc($button-size-medium / 0.618);
+  width: fit-content;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: $text_t_large;
+  font-weight: $text_weight_semibold;
+  color: white;
+}
+
+.plain {
+
+    @extend ._baseButton
+}
