@@ -71,7 +71,7 @@ const Nav: React.FC<Props> = ({ navShow, setNavShow, mode, setMode }) => {
     event => {
       //  这么写，性能不太好
       navButtons.forEach(e => {
-        setNavLine(navLine.current, e.current, true)
+        setNavLine?.(navLine.current, e.current, true)
       })
     }
   )
@@ -102,7 +102,10 @@ const Nav: React.FC<Props> = ({ navShow, setNavShow, mode, setMode }) => {
           log.debug("显示下滑条")
         }
         navLine.style.left = navButton.offsetLeft + "px";
-        navLine.style.width = window.getComputedStyle(navButton).width   
+        navLine.style.transitionDuration = "200ms";
+        navLine.style.width = window.getComputedStyle(navButton).width  
+        console.log(window.getComputedStyle(navButton).width);
+         
       }
     } else {
         if (lineVisible == false) {
