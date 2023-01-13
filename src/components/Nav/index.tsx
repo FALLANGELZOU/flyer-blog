@@ -50,6 +50,9 @@ const Nav: React.FC<Props> = ({ navShow, setNavShow, mode, setMode }) => {
 
   const navLine = createRef<HTMLDivElement>();
   const navButtons: any[]  = []
+  const location = useLocation();
+
+
   flyerNavList.forEach(e => {
     navButtons.push(useRef())
   })
@@ -63,6 +66,16 @@ const Nav: React.FC<Props> = ({ navShow, setNavShow, mode, setMode }) => {
     { target: document.body }
   );
 
+  useEventListener(
+    'resize',
+    event => {
+      //  这么写，性能不太好
+      navButtons.forEach(e => {
+        setNavLine(navLine.current, e.current, true)
+      })
+    }
+  )
+
   useUpdateEffect(() => {
     setLocalMode(mode);
     for (const type of modeMapArr) {
@@ -70,7 +83,6 @@ const Nav: React.FC<Props> = ({ navShow, setNavShow, mode, setMode }) => {
     }
   }, [mode]);
 
-  const location = useLocation();
   //  初始化，只执行一次，此时已经挂在真实dom
   useEffect(() => {
     navButtons.forEach(e => {
@@ -136,7 +148,8 @@ const Nav: React.FC<Props> = ({ navShow, setNavShow, mode, setMode }) => {
     </>
   );
 };
-
+//  connect第一个参数用来传入store的state（redux的，而不是react的，即全局状态，并且会在状态改变的时候自动更新）
+//  第二个参数传入action，必须这样传入才能是可执行的action，如果直接在函数组件中调用，只能获得action的定义
 export default connect(
   (state: storeState) => ({
     navShow: state.navShow,

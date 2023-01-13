@@ -29,7 +29,19 @@ const debug = (message: any, ...args: any) => {
     }
 }
 
+const error = (message: any, ...args: any) => {
+    if (isDevelopment) {
+        console.log(
+            '%c[%cerror%c]', 
+            'color: #2B3467;font-weight:bolder;',
+            'color: #EB455F;font-weight:bolder;',
+            'color: #2B3467;font-weight:bolder;',
+            message, args.length!=0?args:'');
+    }
+}
+
 export const log = {
     info,
-    debug
+    debug,
+    error
 }

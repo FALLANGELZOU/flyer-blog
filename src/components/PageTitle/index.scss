@@ -12,13 +12,13 @@
   margin: 0 auto;
 
   .title {
-    font-size: 56px;
+    font-size: $text_h_medium;
     font-weight: 700;
     text-shadow: 4px 4px 10px $footerBg;
   }
 
   .desc {
-    font-size: 28px;
+    font-size: $text_t_meduim;
   }
 }
 
@@ -35,4 +35,19 @@
       font-size: 22rem;
     }
   }
+}
+
+
+
+/* Cursor */
+// 特定css 防止被webpack模块化命名
+:global(.typed-cursor) {
+  font-size: $text_t_meduim;
+  font-weight: 700;
+  text-shadow: 4px 4px 10px $footerBg;
+  padding-left: 5px;
+}
+
+/* If fade out option is set */
+:global(.typed-fade-out) {
 }
