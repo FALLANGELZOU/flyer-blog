@@ -1,5 +1,7 @@
 import { isDevelopment } from '@/FlyerConfig';
 import { log } from '@/FlyerLog';
+import { storeState } from '@/redux/interface';
+import axios from 'axios';
 import classNames from 'classnames';
 import React, { createRef, ForwardedRef, forwardRef, MouseEventHandler, RefObject, useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
@@ -11,18 +13,18 @@ interface Props {
     onClick?: React.MouseEventHandler<HTMLDivElement> | undefined,
     style?: React.HTMLAttributes<HTMLDivElement> | React.CSSProperties
     to?: string,
-    id?: any
+    id?: any,
+    navShow?: any
 }
 const FixButton = forwardRef<any, Props>(({
     text,
     onClick,
     style,
     to,
-    id
+    id,
 }, ref: any) => {
     if (ref == null) ref = useRef(null);
     const navigate = useNavigate();
-
     //  设置文字
     const setFontStyle = () => {
         
@@ -48,7 +50,6 @@ const FixButton = forwardRef<any, Props>(({
     }
 
     useEffect(() => {
-        
         const current = ref.current
         if (current != undefined) {
             current.style.position = "relative"
@@ -70,5 +71,7 @@ const FixButton = forwardRef<any, Props>(({
         </>
     )
 })
-
-export default FixButton
+//  想同时用forwardRef和connect只能加上forwardRef: true
+export default connect((state: storeState) => ({
+    navShow: state.navShow
+}), null, null, {forwardRef: true})(FixButton)

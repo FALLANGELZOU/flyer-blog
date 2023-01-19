@@ -13,6 +13,7 @@ import s from './App.scss';
 import BackToTop from './components/BackToTop';
 import { setMode } from './redux/actions';
 import { storeState } from './redux/interface';
+import Background from './components/Background';
 
 interface Props {
   mode?: number;
@@ -28,13 +29,14 @@ const App: React.FC<Props> = ({ mode, setMode }) => {
       setMode?.(localMode);
     }
   });
-
+// bgClasses[mode!]
   return (
-    <div className={classNames(s.AppBox, bgClasses[mode!])}>
+    <div className={classNames(s.AppBox)}>  
       <Nav />
       <Main />
       <Footer />
       <BackToTop />
+      <Background/>
     </div>
   );
 };

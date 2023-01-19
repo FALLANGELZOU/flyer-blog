@@ -90,6 +90,7 @@ const Nav: React.FC<Props> = ({ navShow, setNavShow, mode, setMode }) => {
     })
   }, [])
 
+  //  TODO: 目前判断下划线是通过路由匹配的，但是如果两个路由一样就会出问题
   const setNavLine = (navLine: HTMLDivElement | null, navButton: any | null, first = false) => {
     if (navLine == null || navButton == null) {
       log.debug("navLine或navButton为null", navLine, navButton)
@@ -104,7 +105,7 @@ const Nav: React.FC<Props> = ({ navShow, setNavShow, mode, setMode }) => {
         navLine.style.left = navButton.offsetLeft + "px";
         navLine.style.transitionDuration = "200ms";
         navLine.style.width = window.getComputedStyle(navButton).width  
-        console.log(window.getComputedStyle(navButton).width);
+        //  console.log(window.getComputedStyle(navButton).width);
          
       }
     } else {

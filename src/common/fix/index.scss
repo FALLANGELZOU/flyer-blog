@@ -1,6 +1,8 @@
 @import "../../styles/style.scss";
 @import "../../styles/base.scss";
 
+//  ---------- FixButton ----------
+
 $button_size_small: 26px;
 $button_size_medium: 32px;
 $button_size_small: 36px;
@@ -20,4 +22,33 @@ $button_size_small: 36px;
 .plain {
 
     @extend ._baseButton
+}
+
+
+//  ---------- FixImage ----------
+
+._fixImageContainer {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    background-size: cover;  // 可以使用cover
+    background-position: center; //背景图片居中显示，让多余部分相对容器对此展示
+    background-repeat: no-repeat;
+    background-origin: border-box; //从border开始填充
+    background-clip: border-box;  //border外的多余背景图片不展示，截取掉，   
+}
+
+._fixImageContainerV2 {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    background-size: cover;  // 可以使用cover
+    background-position: center; //背景图片居中显示，让多余部分相对容器对此展示
+    background-repeat: no-repeat;
+    background-origin: border-box; //从border开始填充
+    background-clip: border-box;  //border外的多余背景图片不展示，截取掉，   
+}
+
+._lazy {
+    background-image: none;
 }

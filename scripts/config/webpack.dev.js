@@ -23,7 +23,17 @@ module.exports = merge(common, {
       overlay: true // 当出现编译错误或警告时，在浏览器中显示全屏覆盖
     },
     // 解决路由跳转404问题
-    historyApiFallback: true
+    historyApiFallback: true,
+
+    proxy: {
+      '/api': {
+        target: 'http://127.0.0.1:5000',
+        //pathRewrite: {'^/api' : ''},
+        changeOrigin: true,     // target是域名的话，需要这个参数，
+        secure: false,          // 设置支持https协议的代理
+      },
+    }
+  
   },
   plugins: [],
 
