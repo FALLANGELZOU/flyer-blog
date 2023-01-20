@@ -52,3 +52,18 @@ $button_size_small: 36px;
 ._lazy {
     background-image: none;
 }
+
+// ---------- FixWaterFall ----------
+._waterFallItem {
+    
+}
+
+.grid {
+    width: 100%;
+}
+/* clearfix */
+.grid:after {
+    content: '';
+    display: block;
+    clear: both;
+}

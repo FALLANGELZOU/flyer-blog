@@ -7,11 +7,19 @@ import s from './index.scss'
 interface Props extends Omit<ImgHTMLAttributes<HTMLDivElement>, "children"> {
     src?: string,
     lazy?: boolean,
+    natureWidth?: number,
+    natureHeight?: number,
+    needNatureSize?: boolean,
+    onNatureSize?: (natureWidth: number, naturalHeight: number) => {}
 }
 const FixImageV2 = forwardRef<HTMLDivElement, Props>(({
     src,
     lazy = true,
-    style
+    style,
+    needNatureSize = false,
+    natureHeight,
+    natureWidth,
+    onNatureSize
 }, ref) => {
 
     const el = useRef<HTMLDivElement>(null);
@@ -23,6 +31,25 @@ const FixImageV2 = forwardRef<HTMLDivElement, Props>(({
         if (url && current) {
             current.style.backgroundImage = 'url(' + url +')'
             current.classList.remove(classNames(s._lazy))
+        }
+
+        if (url && needNatureSize && (!natureHeight) && (!natureWidth)) {
+            log.debug("FixImageV2: 获取图片实际大小")
+            const tmp = new Image()
+            tmp.src = url
+            if (tmp.complete) {
+                //  图片已经缓存
+                natureHeight = tmp.naturalHeight,
+                natureWidth = tmp.naturalWidth
+                onNatureSize?.(natureWidth, natureHeight)
+            } else {
+                //  图片没有缓存
+                tmp.onload = () => {
+                    natureHeight = tmp.naturalHeight,
+                    natureWidth = tmp.naturalWidth
+                    onNatureSize?.(natureWidth, natureHeight)
+                }
+            }
         }
     }
 
@@ -41,12 +68,14 @@ const FixImageV2 = forwardRef<HTMLDivElement, Props>(({
     const handleIntersect = usePersist((entries: IntersectionObserverEntry[]) => {
         const entry = entries && entries[0];
         if (entry && entry.isIntersecting) {
-            log.debug("FixImageV2: 元素进入视图，触发监听")
+            log.debug("FixImageV2: 元素进入视图")
             if (observerRef.current) {
                 observerRef.current.disconnect(); // 相交事件触发后停止监听
             }
             //  移除修改标签
             setBackground(src);
+        } else {
+            log.debug("FixImageV2: 元素离开视图")
         }
     });
     
