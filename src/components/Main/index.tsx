@@ -19,6 +19,7 @@ const Log = lazy(() => import(/* webpackPrefetch:true */ '@/pages/Log'));
 const About = lazy(() => import(/* webpackPrefetch:true */ '@/pages/About'));
 const Post = lazy(() => import(/* webpackPrefetch:true */ '@/pages/Post'));
 const ArtDetail = lazy(() => import(/* webpackPrefetch:true */ '@/pages/ArtDetail'));
+const TestPage = lazy(() => import(/* webpackPrefetch:true */ '@/pages/Test'))
 
 const Main: React.FC = () => {
   return (
@@ -42,6 +43,8 @@ const Main: React.FC = () => {
               <Route path='post' element={<Post />} />
               <Route path='artDetail' element={<ArtDetail />} />
               <Route path='*' element={<Navigate to='/' replace />} />
+              <Route path='testPage' element = {<TestPage/>} />
+              
             </Routes>
           </Suspense>
         </ErrorBoundary>

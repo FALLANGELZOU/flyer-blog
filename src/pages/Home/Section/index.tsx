@@ -11,6 +11,12 @@ import { homeSize, staleTime } from '@/utils/constant';
 
 import s from './index.scss';
 import PostCard from './PostCard';
+import ShowCard from './ShowCard';
+import Masonry from 'react-masonry-component';
+import CardV2 from '@/components/CardV2';
+import FixImageV2 from '@/common/fix/FixImageV2';
+import classNames from 'classnames';
+import { BookFilled, ClockCircleOutlined } from '@ant-design/icons';
 
 interface theAtc {
   classes: string;
@@ -49,28 +55,74 @@ const Section: React.FC<Props> = ({ artSum }) => {
     }
   );
 
+
+  const ids = Array(20).fill(1)
+    console.log(ids);
+    
   return (
-    <section className={s.section}>
-      {data?.data.map(({ _id, title, content, date, tags, titleEng }: theAtc) => (
-        <PostCard
-          key={_id}
-          title={title}
-          content={content}
-          date={date}
-          tags={tags}
-          loading={loading}
-          onClick={() => navigate(`/post?title=${encodeURIComponent(titleEng)}`)}
-        />
-      ))}
-      <MyPagination
-        current={page}
-        defaultPageSize={homeSize}
-        total={artSum}
-        setPage={setPage}
-        autoScroll={true}
-        scrollToTop={document.body.clientHeight - 80}
-      />
-    </section>
+    <>
+      <div className={s.section}>
+        <Masonry
+        >
+          {
+            ids.map((e, index) => {
+
+              return <div
+              style={{
+                width: '33%',
+                paddingBottom: '10px',
+                paddingLeft: '10px'
+              }}
+              key = {index}
+              >
+                <ShowCard></ShowCard>
+
+              </div>
+
+
+
+            })
+          }
+
+
+        </Masonry>
+      </div>
+
+
+
+      {/* <section className={s.section}>
+        <ShowCard></ShowCard>
+        <ShowCard></ShowCard>
+        <ShowCard></ShowCard>
+        <ShowCard></ShowCard>
+        <ShowCard></ShowCard>
+        <ShowCard></ShowCard>
+        <ShowCard></ShowCard> */}
+      {/* {data?.data.map(({ _id, title, content, date, tags, titleEng }: theAtc) => (
+    <PostCard
+      key={_id}
+      title={title}
+      content={content}
+      date={date}
+      tags={tags}
+      loading={loading}
+      onClick={() => navigate(`/post?title=${encodeURIComponent(titleEng)}`)}
+    />
+  ))} */}
+
+      {/* 自定义的分页显示 */}
+      {/* <MyPagination
+    current={page}
+    defaultPageSize={homeSize}
+    total={artSum}
+    setPage={setPage}
+    autoScroll={true}
+    scrollToTop={document.body.clientHeight - 80}
+  /> */}
+      {/* </section> */}
+
+    </>
+
   );
 };
 

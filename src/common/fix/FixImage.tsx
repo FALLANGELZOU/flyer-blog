@@ -293,24 +293,24 @@ const FixImage = forwardRef<HTMLImageElement, ImageProps>((props, ref) => {
         // 如果使用懒加载，则监听相交事件。
         if (useCustomLazyLoading && imageRef.current && observerRef.current) {
             observerRef.current.observe(imageRef.current);
-            log.debug("启用懒加载，监听相交事件！")
+            //log.debug("启用懒加载，监听相交事件！")
             // 如果当前使用占位图片，立即执行图片预加载。
         } else if (src === placeholder && hasSource) {
-            log.debug("直接加载占位图片！")
+            //log.debug("直接加载占位图片！")
             preloadSource();
         }
     }, []);
 
     useIsomorphicLayoutEffect(() => {
-        log.debug("Image Ref 被触发");
-        console.log(imageRef.current);
-        log.debug(imageRef.current?.width);
-        log.debug(imageRef.current?.height);
+        //log.debug("Image Ref 被触发");
+        //console.log(imageRef.current);
+        //log.debug(imageRef.current?.width);
+        //log.debug(imageRef.current?.height);
     }, [imageRef])
 
     const autoResize = (e: any) => {
-        log.debug("图片宽度：", imageRef.current?.naturalWidth);
-        log.debug("图片高度：", imageRef.current?.naturalHeight)
+        //log.debug("图片宽度：", imageRef.current?.naturalWidth);
+        //log.debug("图片高度：", imageRef.current?.naturalHeight)
     }
 
 
@@ -357,7 +357,7 @@ const FixImage = forwardRef<HTMLImageElement, ImageProps>((props, ref) => {
                 referrerPolicy={referrerPolicy}
                 loading={lazy ? (useNativeLazyLoading ? "lazy" : undefined) : loading}
                 onError={handleError} 
-                onLoad = { autoResize }
+      
                 />
         </>
     )

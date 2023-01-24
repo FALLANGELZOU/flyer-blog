@@ -8,6 +8,7 @@ interface Props {
   className?: string;
   loading?: boolean;
   isStatic?: boolean;
+  
   onClick?: MouseEventHandler<HTMLDivElement>;
 }
 

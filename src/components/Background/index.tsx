@@ -2,6 +2,7 @@ import FixImage from "@/common/fix/FixImage";
 import FixImageV2 from "@/common/fix/FixImageV2";
 import { log } from "@/FlyerLog";
 import { useAsync } from "@/utils/FlyerHooks";
+import $http from "@/utils/HttpService";
 import axios from "axios";
 import classNames from "classnames";
 import React, { useEffect, useRef, useState } from "react";
@@ -11,18 +12,15 @@ import s from './index.scss'
 interface Props {
 
 }
-//  https://iw233.cn/ 图库链接
-
-const urls = [
-    "https://iw233.cn/api.php?sort=pc",
-    "http://api.iw233.cn/api.php?sort=pc",
-    "http://ap1.iw233.cn/api.php?sort=pc",
-    "https://dev.iw233.cn/api.php?sort=pc"
-]
 
 const getImages = async (count: number = 1) => {
-    let data = await axios.get('/api/image')
-    return data.data.pic[0]
+    //  先不取随机图了，这个比较好看
+    // let data = await $http.post('/api/images', {
+    //     num: 1,
+    //     sort: 'pc'
+    // })
+    // return data.data[0].url
+    return "https://tvax3.sinaimg.cn/large/ec43126fgy1glow3bpjagj21z41407wi.jpg"
 }
 const Background = forwardRef<any, Props>(({
 

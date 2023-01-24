@@ -19,7 +19,9 @@ const FixImageV2 = forwardRef<HTMLDivElement, Props>(({
     needNatureSize = false,
     natureHeight,
     natureWidth,
-    onNatureSize
+    className,
+    onNatureSize,
+
 }, ref) => {
 
     const el = useRef<HTMLDivElement>(null);
@@ -68,14 +70,14 @@ const FixImageV2 = forwardRef<HTMLDivElement, Props>(({
     const handleIntersect = usePersist((entries: IntersectionObserverEntry[]) => {
         const entry = entries && entries[0];
         if (entry && entry.isIntersecting) {
-            log.debug("FixImageV2: 元素进入视图")
+            //log.debug("FixImageV2: 元素进入视图")
             if (observerRef.current) {
                 observerRef.current.disconnect(); // 相交事件触发后停止监听
             }
             //  移除修改标签
             setBackground(src);
         } else {
-            log.debug("FixImageV2: 元素离开视图")
+            //log.debug("FixImageV2: 元素离开视图")
         }
     });
     
@@ -111,7 +113,7 @@ const FixImageV2 = forwardRef<HTMLDivElement, Props>(({
         <>
             <div
                 ref={ divRef }
-                className= { classNames(s._fixImageContainerV2, { [s._lazy]: lazy }) }
+                className= { classNames(s._fixImageContainerV2, className, { [s._lazy]: lazy }) }
                 style = {style}
             ></div>
         </>

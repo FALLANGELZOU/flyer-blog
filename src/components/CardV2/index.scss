@@ -1,0 +1,20 @@
+@import '../../styles/base.scss';
+@import '../../styles/style.scss';
+
+._cardContainer {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    border-radius: 10px;
+    flex-direction: column;
+    width: 100%;
+    @extend .trans
+    
+}
+
+// ._active:hover {
+//     transform: scale(1.04);
+//     @extend .trans
+// }
+
+  

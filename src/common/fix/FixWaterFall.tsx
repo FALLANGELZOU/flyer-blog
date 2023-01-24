@@ -92,7 +92,6 @@ const FixWaterFall = forwardRef<HTMLDivElement, Props>(({
 
     //  计算应该显示的高度
     const calculateShowHeight = (natureHeight: number, natureWidth: number, itemWidth: number) => {
-
         return itemWidth/natureWidth*natureHeight
     }
 
@@ -108,8 +107,7 @@ const FixWaterFall = forwardRef<HTMLDivElement, Props>(({
                 gutter: getter,
      
             });
-        }
-                
+        }  
     },[itemWidth])
 
     

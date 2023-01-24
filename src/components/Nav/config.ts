@@ -39,6 +39,7 @@ export const useLinkList = () => {
 
 export const flyerNavList = [
   { name: '主页', to: '/' },
+  { name: "测试页面", to: '/testPage'},
   { name: '文章', to: '/articles' },
   { name: '作品', to: '/show' },
   { name: '图库', to: '/gallery' },

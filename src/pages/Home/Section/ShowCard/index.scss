@@ -1,0 +1,35 @@
+@import '../../../../styles/base.scss';
+@import '../../../../styles/style.scss';
+
+._showCardContainer {
+    display: flex;
+    width: 100%;
+    background-color: white;
+    border-radius: 10px;
+    color: #34495e;
+    //max-width: 360px;
+    box-shadow: 0 15px 35px rgb(50 50 93 / 10%), 0 5px 15px rgb(0 0 0 / 7%) !important;
+    @extend .trans
+}
+
+._showCardContainer:hover {
+    transform: scale(1.04);
+    @extend .trans
+}
+
+._description {
+    overflow: hidden;
+    position: relative;
+    line-height: 1.5em;
+    max-height: 4.5em;
+    text-align: justify;
+    word-break: break-all;
+}
+
+._title {
+    font-size: $text_t_large;
+    color: white;
+    font-weight: $text_weight_regular;
+    margin-left: 15px;
+    margin-bottom: 15px;
+}
