@@ -57,8 +57,7 @@ const Section: React.FC<Props> = ({ artSum }) => {
 
 
   const ids = Array(20).fill(1)
-    console.log(ids);
-    
+
   return (
     <>
       <div className={s.section}>
@@ -70,8 +69,8 @@ const Section: React.FC<Props> = ({ artSum }) => {
               return <div
               style={{
                 width: '33%',
-                paddingBottom: '10px',
-                paddingLeft: '10px'
+                paddingBottom: '20px',
+                paddingLeft: '20px'
               }}
               key = {index}
               >

@@ -11,11 +11,14 @@ const [vd, setVd] = useSafeState<Vditor>();
       after: () => {
         vditor.setValue("`Vditor` 编辑");
         setVd(vditor);
+        
+      },
+      focus: (value) => {
+        //  聚焦编辑器
       }
     });
-  }, []);
-
   
+  }, []);
   return <div id="vditor" className="vditor" />;
 }
 

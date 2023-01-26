@@ -6,6 +6,7 @@ const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const AntdDayjsWebpackPlugin = require('antd-dayjs-webpack-plugin');
+const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
 
 const { ROOT_PATH } = require('../constant');
 const { isDevelopment, isProduction } = require('../env');
@@ -120,6 +121,7 @@ module.exports = {
   },
 
   plugins: [
+    new NodePolyfillPlugin(),
     // html模板
     new HtmlWebpackPlugin({
       template: path.resolve(ROOT_PATH, './public/index.html'),
