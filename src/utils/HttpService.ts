@@ -1,3 +1,4 @@
+import { log } from "@/FlyerLog"
 import axios, { AxiosRequestConfig } from "axios"
 //  对axios进行简单的配置
 const developUrl = "http://localhost:3000/"
@@ -13,7 +14,12 @@ const $http = axios.create({
 // 1、发送请求之前，加载一些组件
 // 2、某些请求需要携带token，如果说没有没有携带，直接跳转到登录页面
 $http.interceptors.request.use((config) => {
-    // console.log('被拦截做的一些操作')
+    //  携带token
+    const token = localStorage.getItem("Authorization")
+    if (token && config.headers) {
+        config.headers["Authorization"] = `Bearer ${token}`
+    }
+
     return config
 }, err => {
     return err
@@ -24,6 +30,7 @@ $http.interceptors.response.use((res) => {
     return res
 }, err => {
     if (err && err.response) {
+        
         switch(err.response.status) {
             // case 400:
             //     console.log('请求错误')
@@ -34,6 +41,8 @@ $http.interceptors.response.use((res) => {
             // default:
             //     console.log('其他信息错误')
         }
+
+        return err.response
     }
 })
 
