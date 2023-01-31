@@ -3,10 +3,11 @@ import API from "@/utils/apis/FlyerApi"
 import { useLatest } from "ahooks"
 import { Button, Input } from "antd"
 import React from "react"
+import { useNavigate } from "react-router-dom"
 
 const Login = () => {
 
-
+    const navigate = useNavigate()
     const username = useLatest("")
     const password = useLatest("")
 
@@ -19,9 +20,10 @@ const Login = () => {
     }
     const login = () => {
         API.login(username.current, password.current).then((res: any) => {
-            const data = res.data
+            const data = res.data    
             if (data.code == 200) {
                 // TODO: 切换到后台管理界面
+                navigate("/dashboard")
             }
         })
     }

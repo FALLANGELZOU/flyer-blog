@@ -34,11 +34,12 @@ interface Props {
   setNavShow?: Function;
   mode?: number;
   setMode?: Function;
+  hiddenNav?: boolean;
 }
 
 const bodyStyle = window.document.getElementsByTagName('body')[0].style;
 
-const Nav: React.FC<Props> = ({ navShow, setNavShow, mode, setMode }) => {
+const Nav: React.FC<Props> = ({ navShow, setNavShow, mode, setMode, hiddenNav }) => {
   const navigate = useNavigate();
 
   // eslint-disable-next-line no-unused-vars
@@ -59,9 +60,11 @@ const Nav: React.FC<Props> = ({ navShow, setNavShow, mode, setMode }) => {
   useEventListener(
     'mousewheel',
     event => {
+      if (hiddenNav) return
       //  滚轮事件监听
       event = event || window.event;
       setNavShow!(event.wheelDeltaY > 0);
+
     },
     { target: document.body }
   );
@@ -123,7 +126,7 @@ const Nav: React.FC<Props> = ({ navShow, setNavShow, mode, setMode }) => {
 
   return (
     <>
-      <div className= {classNames(s.nav, { [s.hiddenNav]: !navShow }, 'nav_group')}>
+      <div className= {classNames(s.nav, { [s.hiddenNav]: (hiddenNav || !navShow) }, 'nav_group')}>
         {
           flyerNavList.map((item, index) => {
               return (
@@ -157,7 +160,8 @@ const Nav: React.FC<Props> = ({ navShow, setNavShow, mode, setMode }) => {
 export default connect(
   (state: storeState) => ({
     navShow: state.navShow,
-    mode: state.mode
+    mode: state.mode,
+    hiddenNav: state.hiddenNav
   }),
   { setNavShow, setMode }
 )(Nav);

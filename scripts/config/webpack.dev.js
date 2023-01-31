@@ -10,7 +10,9 @@ module.exports = merge(common, {
   devtool: 'eval-cheap-module-source-map',
   output: {
     path: path.resolve(ROOT_PATH, './build'),
-    filename: 'js/[name].js'
+    filename: 'js/[name].js',
+    //TODO: 目前这么写，非跟url刷新会报错
+    publicPath: "/"
   },
   devServer: {
     host: SERVER_HOST,

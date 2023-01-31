@@ -6,4 +6,5 @@ export interface storeState {
   email: string;
   avatar: string;
   mode: number;
+  hiddenNav: boolean;
 }

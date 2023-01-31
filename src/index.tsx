@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, HashRouter } from 'react-router-dom';
 
 import store from '@/redux/store';
 
@@ -13,6 +13,7 @@ if (module?.hot) {
 
 ReactDOM.render(
   <Provider store={store}>
+    {/* Browser路由有点问题 */}
     <BrowserRouter>
       <App />
     </BrowserRouter>

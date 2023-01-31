@@ -8,7 +8,7 @@ import mode from './mode';
 import name from './name';
 import navShow from './navShow';
 import nav from './nav';
-
+import { hiddenNav } from './common';
 export default combineReducers({
   navShow,
   artSum,
@@ -17,5 +17,6 @@ export default combineReducers({
   link,
   name,
   mode,
-  nav
+  nav,
+  hiddenNav
 });

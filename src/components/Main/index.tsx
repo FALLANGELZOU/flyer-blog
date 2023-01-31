@@ -21,6 +21,10 @@ const Post = lazy(() => import(/* webpackPrefetch:true */ '@/pages/Post'));
 const ArtDetail = lazy(() => import(/* webpackPrefetch:true */ '@/pages/ArtDetail'));
 const TestPage = lazy(() => import(/* webpackPrefetch:true */ '@/pages/Test'))
 
+//  后台页面
+const Backend = lazy(() => import(/* webpackPrefetch:true */ '@/pages/Backend'))
+const Dashboard = lazy(() => import(/* webpackPrefetch:true */ '@/pages/Backend/Dashboard'))
+const Login = lazy(() => import(/* webpackPrefetch:true */ '@/pages/Backend/Login'))
 const Main: React.FC = () => {
   return (
     <main className={s.main}>
@@ -43,7 +47,10 @@ const Main: React.FC = () => {
               <Route path='post' element={<Post />} />
               <Route path='artDetail' element={<ArtDetail />} />
               <Route path='*' element={<Navigate to='/' replace />} />
-              <Route path='testPage' element = {<TestPage/>} />
+              <Route path='testPage' element={<TestPage />} />
+          
+              <Route path='login' element = {<Login/>} />
+              <Route path='dashboard/*' element = {<Dashboard/>} />
               
             </Routes>
           </Suspense>
