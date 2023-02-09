@@ -5,13 +5,30 @@ import CardV2 from '@/components/CardV2';
 import FixImageV2 from '@/common/fix/FixImageV2';
 import classNames from 'classnames';
 import { BookFilled, ClockCircleOutlined } from '@ant-design/icons';
+import FixImageV3 from '@/common/fix/FixImageV3';
 
 interface Props extends ImgHTMLAttributes<HTMLDivElement> {
+    image?: {
+        url?: string,
+        wdith?: number,
+        height?: number
+    }
 
+    title?: string,
+    description?: string,
+    time?: string
+    tags?: string[],
+    classification?: string
 }
 
 const ShowCard: React.FC<Props> = ({
-    style
+    style,
+    image,
+    title,
+    description,
+    time,
+    tags,
+    classification
 }) => {
    
     useEffect(() => {
@@ -27,13 +44,9 @@ const ShowCard: React.FC<Props> = ({
                     position: 'relative',
                     width: '100%'
                 }}>
-                    <FixImageV2
-                        src='https://tva3.sinaimg.cn/large/ec43126fgy1gvvgi2g05xj21mc0wtnpd.jpg'
-                        style={{
-                            height: '220px',
-                            borderRadius: '10px'
-                        }}
-                    />
+                    <FixImageV3
+                        url='https://tva3.sinaimg.cn/large/ec43126fgy1gvvgi2g05xj21mc0wtnpd.jpg'
+                    ></FixImageV3>
                     <div className={s._title}
                         style={{
                             position: 'absolute',
@@ -47,7 +60,7 @@ const ShowCard: React.FC<Props> = ({
                     padding: '15px',
                     width: '100%'
                 }}>
-                    <div className={classNames(s._description)}>同时因为群里面投票大多数人支持开源，所以也趁这次机会把博客系统开源了。</div>
+                    <div className={classNames(s._description)}>dasdsadasda</div>
                     <div style={{
                         height: '1px',
                         width: '100%',

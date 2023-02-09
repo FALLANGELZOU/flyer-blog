@@ -103,7 +103,6 @@ const Nav: React.FC<Props> = ({ navShow, setNavShow, mode, setMode, hiddenNav })
       if (location.pathname == navButton.pathname) {
         if (lineVisible == false) {
           setLineVisible(true);
-          log.debug("显示下滑条")
         }
         navLine.style.left = navButton.offsetLeft + "px";
         navLine.style.transitionDuration = "200ms";
@@ -114,7 +113,6 @@ const Nav: React.FC<Props> = ({ navShow, setNavShow, mode, setMode, hiddenNav })
     } else {
         if (lineVisible == false) {
           setLineVisible(true);
-          log.debug("显示下滑条")
         }
         navLine.style.transform = `translateX(${navButton.offsetLeft - navLine.offsetLeft}px)`;
         navLine.style.transitionDuration = "200ms";

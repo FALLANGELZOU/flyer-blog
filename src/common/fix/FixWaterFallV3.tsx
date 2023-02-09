@@ -26,44 +26,16 @@ interface Props extends ImgHTMLAttributes<HTMLDivElement> {
 const WaterFallItem: React.FC<Props> = ({ children, rootEl, style, onShow }) => {
     const el = useRef<HTMLDivElement>(null)
     const virtualDom = useRef<HTMLDivElement>(null)
-    const [loaded, setLoaded] = useSafeState(false)
-    const [inViewport, ratio] = useInViewport(() => el.current, {
-        threshold: [0, 0.25, 0.5, 0.75, 1],
-        rootMargin: '50px 0px -50px 0px',
-        root: rootEl
-    });
-
     useEffect(() => {
-        if (virtualDom.current) {
-            imagesLoaded(virtualDom.current).on('always', (instance) => {
+        if (el.current) {
+            imagesLoaded(el.current).on('always', (instance) => {
                 onShow?.()
             })
         }    
     })
-
-    // useUpdateEffect(() => {
-    //     if (virtualDom.current) {
-    //         if (inViewport) {
-    //             virtualDom.current.style.display = 'flex'
-    //             //log.debug("接近可视区域，开始预渲染")
-    //             if (!loaded) {
-    //                 onShow?.()
-    //                 setLoaded(true)
-    //             }
-                
-    //         } else {
-    //             virtualDom.current.style.display = 'none'
-    //             //log.debug("离开可视区域，清除渲染")
-    //         }
-    //     }
-        
-    // }, [inViewport])
     return (
         <div  style={style} ref={el}>
-        <div className="virtualWrapper" ref = {virtualDom}>
             {children}
-        </div>
-            
         </div>
     )
 }
@@ -115,7 +87,7 @@ const FixWaterFallV3 = forwardRef<HTMLDivElement, Props>(({
                                 <WaterFallItem
                                     rootEl={rootEl}
                                     style = {{
-                                        width:"33%"
+                                        width:"33%",
                                     }}
                                     onShow = {onShow}
                                 >

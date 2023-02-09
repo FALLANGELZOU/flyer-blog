@@ -1,4 +1,5 @@
-import { DependencyList, EffectCallback, ForwardedRef, Ref, useEffect, useRef } from "react";
+import { useLatest } from "ahooks";
+import { DependencyList, EffectCallback, ForwardedRef, Ref, useCallback, useEffect, useRef } from "react";
 
 //  异步
 export const useAsync = (asyncFn: any, onSuccess: Function) => {
@@ -73,3 +74,44 @@ export function useMergedRef<T>(...refs: (ForwardedRef<T> | undefined)[]): Ref<T
         });
     };
 }
+
+
+export const useInterval =  (
+    fn: () => void,
+    delay: number | undefined,
+    options: {
+      immediate?: boolean;
+    } = {},
+  ) => {
+    const { immediate } = options;
+  
+    const fnRef = useLatest(fn);
+    const timerRef = useRef<NodeJS.Timer | null>(null);
+  
+    useEffect(() => {
+      if (!isNumber(delay) || delay < 0) {
+        return;
+      }
+      if (immediate) {
+        fnRef.current();
+      }
+      timerRef.current = setInterval(() => {
+        fnRef.current();
+      }, delay);
+      return () => {
+        if (timerRef.current) {
+          clearInterval(timerRef.current);
+        }
+      };
+    }, [delay]);
+  
+    const clear = useCallback(() => {
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+      }
+    }, []);
+  
+    return clear;
+  }
+
+export const isNumber = (value: unknown): value is number => typeof value === 'number';

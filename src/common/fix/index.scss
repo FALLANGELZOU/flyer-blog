@@ -27,6 +27,16 @@ $button_size_small: 36px;
 
 //  ---------- FixImage ----------
 
+._fixImageContainerV3 {
+    display: block;
+    @extend .trans
+}
+
+._hidden {
+    display: none;
+    @extend .trans
+}
+
 ._fixImageContainer {
     display: flex;
     height: 100%;

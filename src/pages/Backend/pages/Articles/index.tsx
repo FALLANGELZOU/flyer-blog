@@ -18,15 +18,23 @@ const BEArticles = () => {
     const [show, setShow] = useSafeState(true)
     const [data, setData] = useSafeState<DataType[]>([])
     const [editId, setEditId] = useSafeState<string | undefined>(undefined)
+    const [editIndex, setEditIndex] = useSafeState(0)
 
-    const onEdit = (data: DataType) => {
+    const onEdit = (data: DataType, index: number) => {
         setEditId(data.key)
+        setEditIndex(index)
         setShow(false)
     }
 
-    const onBack = () => {
+    const onBack = (params: any) => {
         setShow(true)
         setEditId(undefined)
+        if (params.title) {
+            setData((data) => {
+                data[editIndex].name = params.title
+                return data
+            })
+        }
     }
 
 
@@ -46,9 +54,9 @@ const BEArticles = () => {
         {
             title: '操作',
             key: 'action',
-            render: (data) => (
+            render: (text, data, index) => (
                 <Space size="middle">
-                    <a onClick={() => { onEdit(data) }}>编辑</a>
+                    <a onClick={() => { onEdit(data, index) }}>编辑</a>
                     <a>删除</a>
                 </Space>
             ),

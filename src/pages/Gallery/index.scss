@@ -10,3 +10,10 @@
 ._imageContainer {
   
 }
+
+
+
+._hidden {
+  display: none;
+  @extend .trans
+}

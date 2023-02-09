@@ -2,12 +2,12 @@ import ErrorBoundary from "@/components/ErrorBoundary"
 import { storeState } from "@/redux/interface"
 import { setHiddenNav } from "@/redux/reducers/common"
 import { useUnmount } from "@/utils/FlyerHooks"
-import { FormOutlined, MailOutlined } from "@ant-design/icons"
-import { useMount } from "ahooks"
+import { FormOutlined, LogoutOutlined, MailOutlined } from "@ant-design/icons"
+import { useMount, useSafeState } from "ahooks"
 import { Menu, MenuProps } from "antd"
 import React, { lazy, Suspense } from "react"
 import { connect } from "react-redux"
-import { Route, Routes, useNavigate } from "react-router-dom"
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom"
 //@ts-ignore
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -19,14 +19,17 @@ const Dashboard: React.FC<Props> = ({
     hiddenNav, setHiddenNav
 }) => {
     const navigate = useNavigate();
+    const location = useLocation()
+    const [path, setPath] = useSafeState("/dashboard/overview")
     const Overview = lazy(() => import(/* webpackPrefetch:true */ '../pages/Overview'))
     const Articles = lazy(() => import(/* webpackPrefetch:true */ '../pages/Articles'))
-
-    
+    //  不能在dom渲染后再设置
+    if (location.pathname != path) setPath(location.pathname)
 
     useMount(() => {
         console.log("进入后台");
         setHiddenNav?.(true)
+        
     })
 
     useUnmount(() => {
@@ -36,7 +39,7 @@ const Dashboard: React.FC<Props> = ({
     })
 
     const onSelect = (e: any) => {
-        navigate(`/dashboard/${e.key}`)
+        navigate(e.key)
     }
 
     const getItem = (
@@ -56,8 +59,9 @@ const Dashboard: React.FC<Props> = ({
     }
 
     const items: MenuItem[] = [
-        getItem('总览', 'overview', <MailOutlined />),
-        getItem('文章', 'articles', <FormOutlined />),
+        getItem('总览', '/dashboard/overview', <MailOutlined />),
+        getItem('文章', '/dashboard/articles', <FormOutlined />),
+        getItem('退出', '/', <LogoutOutlined />)
     ]
     return (
         <>
@@ -79,7 +83,7 @@ const Dashboard: React.FC<Props> = ({
                         theme='light'
                         // onClick={onClickSilder}
                         style={{ width: 256 }}
-                        defaultSelectedKeys={['overview']}
+                        defaultSelectedKeys={[path]}
                         mode="inline"
                         items={items}
                         onSelect={onSelect}

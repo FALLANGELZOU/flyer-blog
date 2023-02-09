@@ -61,18 +61,17 @@ img {
   -webkit-user-drag: none;
 }
 
-::selection {
-  background: $themeColor2 !important;
-}
+//  背景颜色
+// ::selection {
+//   background: $themeColor2 !important;
+// }
 
 // antd的message
-.ant-message-notice-content {
-  background-color: $themeColor1 !important;
-  border-radius: 14px !important;
-  font-family: 'dengxian' !important;
-  color: $textColor !important;
-  font-size: 18px !important;
-}
+// .ant-message-notice-content {
+//   border-radius: 14px !important;
+//   font-family: 'dengxian' !important;
+//   font-size: 18px !important;
+// }
 
 @media screen and (max-width: 1240px) {
   body::-webkit-scrollbar,

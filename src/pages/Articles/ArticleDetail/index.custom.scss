@@ -1,0 +1,23 @@
+.vditor-outline ul {
+    list-style: none !important;
+    padding-left: 8px;
+
+}
+
+.vditor-outline {
+    display: block;
+}
+
+.vditor-outline li > span > svg {
+    display: none;
+}
+
+.vditor-outline li > span {
+    padding-left: 0px;
+    padding: 3px;
+}
+
+.ant-message-notice-content {
+    font-size: 16px;
+    border-radius: 10px !important;
+}
