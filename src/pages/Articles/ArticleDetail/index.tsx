@@ -113,7 +113,8 @@ const ArticleDetail = () => {
 
                     <div style={{
                         display: "flex",
-                        justifyContent: "center"
+                        justifyContent: "center",
+                        marginTop:'20px'
                     }}>
                         <Space wrap>
                             <Button shape="circle" size="large" style={{
@@ -155,7 +156,7 @@ const ArticleDetail = () => {
                     </div>
                 </div>
             </div>
-            <div>猜你喜欢，下篇上篇等</div>
+            {/* <div>猜你喜欢，下篇上篇等</div> */}
         </div>
 
     )

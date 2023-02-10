@@ -1,25 +1,44 @@
-import { useLatest, useMount, useSafeState } from "ahooks";
-import React, { useRef } from "react"
+import { useLatest, useMount, useSafeState, useUpdateEffect } from "ahooks";
+import React, { useEffect, useRef } from "react"
 import Vditor from "vditor";
 import '@/styles/vditor.custom.scss'
 import $http from "@/utils/HttpService";
 import { Button, Input, notification, Radio, Space, Tag } from "antd";
 import { CheckCircleOutlined, ExclamationCircleOutlined, PlusOutlined, SmileOutlined } from "@ant-design/icons";
 import Title from "antd/es/typography/Title";
+import { isBlank, useUpdate } from "@/utils/FlyerHooks";
+import { log } from "@/FlyerLog";
 
 
 interface Props {
     id?: string //  文章id
     onBack?: Function   //  监听返回
+    createArticle?: ArticleDto  //  新建文章   
 }
+
+export interface ArticleDto {
+    id?: string;
+    md?: string;
+    title?: string;
+    createTime?: number;
+    status?: string;
+}
+
+
 const Editor: React.FC<Props> = ({
     id,
-    onBack
+    onBack,
+    createArticle
 }) => {
 
     const [vd, setVd] = useSafeState<Vditor>();
     const [api, contextHolder] = notification.useNotification();
     const [title, setTitle] = useSafeState("")
+    const [tags, setTags] = useSafeState<string[]>([])
+    const [status, setStatus] = useSafeState("editing")
+
+
+
     const openSaveTost = (title: string = "保存成功", msg: string = "未知原因", success = true) => {
         api.error({
             message: title,
@@ -35,11 +54,15 @@ const Editor: React.FC<Props> = ({
             const res = await $http.post("/api/find-article", { _id: id })
             const data = res?.data?.data
             if (res.data.code == 200 && data) {
-                console.log(data);
-
+                //  console.log(data);
                 value = data.md
                 setTitle(data.title)
+                setTags(data.tag?data.tag:[])
+                setStatus(data.status?data.status:"editing")
             }
+        } else if (createArticle) {
+            //  新建文章
+            setTitle(createArticle.title ? createArticle.title : "")
         }
 
 
@@ -52,11 +75,6 @@ const Editor: React.FC<Props> = ({
             focus: (value) => {
                 //  聚焦编辑器
             },
-
-            // "mode": "sv",
-            // "preview": {
-            //     "mode": "both"
-            // }
         });
 
 
@@ -65,11 +83,19 @@ const Editor: React.FC<Props> = ({
 
     const onSave = () => {
         if (vd) {
+            if (isBlank(title)) {
+                openSaveTost("保存失败", "标题不能为空", false)
+                return
+
+            }
+
             const md = vd.getValue();
             $http.post("api/article-update", {
                 _id: id,
                 md,
-                title
+                title,
+                tag: tags,
+                status
             }).then(res => {
                 const data = res.data
                 if (data.code == 200 && data.data) {
@@ -78,8 +104,6 @@ const Editor: React.FC<Props> = ({
                     openSaveTost("保存失败", "文章保存失败，可能原因：服务端存储失败", false)
                 }
             })
-
-
         } else {
             openSaveTost("保存失败", "无法获取文章内容", false)
         }
@@ -87,7 +111,6 @@ const Editor: React.FC<Props> = ({
 
     return (
         <>
-
             {contextHolder}
             <Title>文章编辑区</Title>
             <Space size='middle' align="center" style={{
@@ -101,7 +124,7 @@ const Editor: React.FC<Props> = ({
                 <span>文章状态</span>
                 <div>
 
-                    <Radio.Group defaultValue="editing">
+                    <Radio.Group defaultValue="editing" value={status} onChange = {(e) => {setStatus(e.target.value)}}>
                         <Radio.Button value="editing">编辑</Radio.Button>
                         <Radio.Button value="publish">发布</Radio.Button>
                         <Radio.Button value="hidden">隐藏</Radio.Button>
@@ -137,7 +160,7 @@ const Editor: React.FC<Props> = ({
                     marginLeft: '10px'
                 }}>
                     <div>标签</div>
-                    <TagsLayout />
+                    <TagsLayout  tagProp={tags} onTagsChange = { (newTags) => {setTags(newTags)} }/>
                 </div>
             </div>
 
@@ -147,23 +170,32 @@ const Editor: React.FC<Props> = ({
 
 
 
-
-const TagsLayout = () => {
-    //  tag: #red|这是个红色标签
-    const [tags, setTags] = useSafeState(['随笔', 'sasdsadasdsaas', 'Tag 3']);
+interface TagProp {
+    tagProp: string[],
+    onTagsChange?: (value: string[]) => void
+}
+const TagsLayout: React.FC<TagProp> = ({ tagProp, onTagsChange }) => {
+    const [tags, setTags] = useSafeState(tagProp);
     const [inputVisible, setInputVisible] = useSafeState(false)
     const [inputValue, setInputValue] = useSafeState("")
     const [addTagWidth, setAddTagWidth] = useSafeState(78)
     const addEl = useRef(null)
+
+    useUpdateEffect(() => {
+        setTags(tagProp)
+    }, [tagProp])
+
     useMount(() => {
         if (addEl.current) {
-            setAddTagWidth((addEl.current as HTMLElement).offsetWidth);    
+            setAddTagWidth((addEl.current as HTMLElement).offsetWidth);
         }
     })
 
     const handleInputConfirm = () => {
         if (inputValue && tags.indexOf(inputValue) === -1) {
-            setTags([...tags, inputValue]);
+            const newTags = [...tags, inputValue]
+            onTagsChange?.(newTags)
+            setTags(newTags);
         }
         setInputVisible(false);
         setInputValue('');
@@ -173,7 +205,7 @@ const TagsLayout = () => {
     //  删除标签
     const handleClose = (removedTag: string) => {
         const newTags = tags.filter((tag) => tag !== removedTag);
-        console.log(newTags);
+        onTagsChange?.(newTags)
         setTags(newTags);
     };
 
@@ -181,7 +213,7 @@ const TagsLayout = () => {
         let color = ""
         if (tag.length > 0 && tag[0] == '!') {
             //  有颜色
-            for(let i = 1; i < tag.length; i ++) {
+            for (let i = 1; i < tag.length; i++) {
                 if (tag[i] != ' ') {
                     color += tag[i]
                 } else {
@@ -201,9 +233,9 @@ const TagsLayout = () => {
                     handleClose(tag);
                 }}
 
-                onClick = {(e) => {
+                onClick={(e) => {
                     console.log(e, "测试");
-                    
+
                 }}
             >
                 {tag}
@@ -233,9 +265,9 @@ const TagsLayout = () => {
                         onPressEnter={handleInputConfirm}
                     />
                 ) : (
-                    <Tag 
-                        ref = {addEl}
-                        onClick={showInput} 
+                    <Tag
+                        ref={addEl}
+                        onClick={showInput}
                         style={{ borderStyle: 'dashed' }}>
                         <PlusOutlined /> 添加标签
                     </Tag>

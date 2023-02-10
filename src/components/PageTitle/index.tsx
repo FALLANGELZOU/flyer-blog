@@ -2,20 +2,22 @@ import { log } from '@/FlyerLog';
 import classNames from 'classnames';
 import React, { useEffect, useRef } from 'react';
 import Typed from 'typed.js'
+import Background from '../Background';
 import s from './index.scss';
 
 interface Props {
   title?: string;
   desc?: string[];
   className?: string;
+  backgroundImage?: string;
 }
 
-const PageTitle: React.FC<Props> = ({ title, desc, className, children }) => {
+const PageTitle: React.FC<Props> = ({ title, desc, className, children, backgroundImage = "" }) => {
 
   const typedElement = useRef(null)
   const typed = useRef<React.MutableRefObject<Typed>>(null)
   useEffect(() => {
-    
+
     return () => {
       (typed.current as any)?.destroy();
     }
@@ -35,17 +37,31 @@ const PageTitle: React.FC<Props> = ({ title, desc, className, children }) => {
       })
     }
   }, [desc])
-  
+
   return (
-    <div className={classNames(s.box, className)}>
-      <div className={s.title}>{title}</div>
-      <div>
-        <span ref = { typedElement } className={classNames(s.desc, s["typed-cursor"])}></span>
+    <div className={classNames(s.box, className)} style={{
+
+    }}>
+      <div className={s.title} style={{zIndex:1}}>{title}</div>
+      <div style={{zIndex:1}}>
+        <span ref={typedElement} className={classNames(s.desc, s["typed-cursor"])}></span>
       </div>
 
       {children}
-      
+      {
+        backgroundImage && <img src={backgroundImage}
+          style={{
+            display: "flex",
+            objectFit: "cover",
+            position: "absolute",
+            height: "100vh",
+            width: "100vw",
+            zIndex: 0
+          }}
+        ></img>
+      }
     </div>
+
   );
 };
 

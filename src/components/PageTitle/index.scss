@@ -11,6 +11,15 @@
   width: $layoutWidth;
   margin: 0 auto;
 
+
+  background-size: cover;  // 可以使用cover
+  background-position: center; //背景图片居中显示，让多余部分相对容器对此展示
+  background-repeat: no-repeat;
+  background-origin: border-box; //从border开始填充
+  background-clip: border-box;  //border外的多余背景图片不展示，截取掉，   
+  
+  
+
   .title {
     font-size: $text_h_medium;
     font-weight: 700;

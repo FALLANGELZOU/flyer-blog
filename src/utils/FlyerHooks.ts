@@ -115,3 +115,9 @@ export const useInterval =  (
   }
 
 export const isNumber = (value: unknown): value is number => typeof value === 'number';
+
+export const isBlank = (value: string | undefined | null) => {
+  if (value == undefined || value == null) return true
+  if (value.trim().length == 0) return true
+  return false
+}

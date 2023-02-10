@@ -27,14 +27,11 @@ const Dashboard: React.FC<Props> = ({
     if (location.pathname != path) setPath(location.pathname)
 
     useMount(() => {
-        console.log("进入后台");
         setHiddenNav?.(true)
         
     })
 
     useUnmount(() => {
-        console.log("离开后台");
-
         setHiddenNav?.(false)
     })
 

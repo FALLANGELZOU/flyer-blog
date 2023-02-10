@@ -36,7 +36,7 @@ const App: React.FC<Props> = ({ mode, setMode }) => {
       <Main />
       <Footer />
       <BackToTop />
-      <Background/>
+      {/* <Background/> */}
     </div>
   );
 };

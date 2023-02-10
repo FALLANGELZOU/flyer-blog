@@ -11,6 +11,7 @@ import Aside from './Aside';
 import s from './index.scss';
 import Section from './Section';
 import { log } from '@/FlyerLog';
+import $http from '@/utils/HttpService';
 
 interface Props {
   setNavShow?: Function;
@@ -38,13 +39,23 @@ const Home: React.FC<Props> = ({ setNavShow }) => {
   setNavShow && useTop(setNavShow);
 
   const [poem, setPoem] = useSafeState(new Array<string>());
+  const [backgroundUrl, setBackgroundUrl] = useSafeState("")
+
   useMount(() => {
     getPoems(3).then((res: string[]) => { setPoem(res) });
+    $http.post('/api/images', {
+      num: 1,
+      sort: 'pc'
+  }).then(res => {
+    setBackgroundUrl("https://tvax4.sinaimg.cn/large/ec43126fgy1gwxgbt92hrj21hc0u0njz.jpg")
+    //setBackgroundUrl(res.data.data[0].url)
+  }).catch(err => console.log(err)
+  )
   });
 
   return (
     <>
-      <PageTitle title={siteTitle} desc={poem || [] } className={s.homeTitle} />
+      <PageTitle title={siteTitle} desc={poem || [] } className={s.homeTitle} backgroundImage = {backgroundUrl}/>
       <div className={s.body}>
         <Section />
         <Aside />

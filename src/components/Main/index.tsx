@@ -4,6 +4,8 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import ErrorBoundary from '@/components/ErrorBoundary';
 
 import s from './index.scss';
+import { useMount, useSafeState } from 'ahooks';
+import $http from '@/utils/HttpService';
 
 const Home = lazy(() => import(/* webpackPrefetch:true */ '@/pages/Home'));
 const Articles = lazy(() => import(/* webpackPrefetch:true */ '@/pages/Articles'));
@@ -26,6 +28,7 @@ const Backend = lazy(() => import(/* webpackPrefetch:true */ '@/pages/Backend'))
 const Dashboard = lazy(() => import(/* webpackPrefetch:true */ '@/pages/Backend/Dashboard'))
 const Login = lazy(() => import(/* webpackPrefetch:true */ '@/pages/Backend/Login'))
 const Main: React.FC = () => {
+
   return (
     <main className={s.main}>
       <div className={s.center}>
