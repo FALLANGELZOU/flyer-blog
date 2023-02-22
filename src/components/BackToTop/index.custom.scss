@@ -1,5 +1,13 @@
-@media screen and (max-width: 1240px) {
-  .BackTop {
-    display: none;
-  }
+// @media screen and (max-width: 1240px) {
+//   .BackTop {
+//     display: none;
+//   }
+// }
+
+.ant-float-btn-default .ant-float-btn-body{
+  background-color: rgb(238,106,99);
+}
+
+.anticon {
+  color: white;
 }

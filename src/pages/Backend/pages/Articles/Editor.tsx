@@ -2,7 +2,7 @@ import { useLatest, useMount, useSafeState, useUpdateEffect } from "ahooks";
 import React, { useEffect, useRef } from "react"
 import Vditor from "vditor";
 import '@/styles/vditor.custom.scss'
-import $http from "@/utils/HttpService";
+import $http, { getToken, uploadMdImageUrl } from "@/utils/HttpService";
 import { Button, Input, notification, Radio, Space, Tag } from "antd";
 import { CheckCircleOutlined, ExclamationCircleOutlined, PlusOutlined, SmileOutlined } from "@ant-design/icons";
 import Title from "antd/es/typography/Title";
@@ -17,11 +17,13 @@ interface Props {
 }
 
 export interface ArticleDto {
-    id?: string;
+    id?: string;    //  前端使用id字段
     md?: string;
     title?: string;
     createTime?: number;
     status?: string;
+    _id?: string;   //  服务端传回来的数据
+    tag?: string[];
 }
 
 
@@ -75,6 +77,44 @@ const Editor: React.FC<Props> = ({
             focus: (value) => {
                 //  聚焦编辑器
             },
+            upload: {
+                url: uploadMdImageUrl,
+                headers: {
+                    Authorization: `Bearer ${getToken()}`
+                },
+
+                format: (files: File[], responseText: string) => {
+                    const data = JSON.parse(responseText)
+                    let succImage = {}
+                    if (data.code === 200) {
+                        for(const img of data.data) {
+                            // 一堆东西
+                            const imgData = img.data
+                            const name = (imgData.name as string).split(".")[0]
+                            succImage = Object.defineProperty(succImage, name, {
+                                value: imgData.links.url,
+                                writable: true,
+                                enumerable: true
+                            })
+        
+                        }
+
+                        const res = {
+                            "msg": "",
+                            "code": 0,
+                            "data": {
+                                "errFiles": [],
+                                "succMap": succImage
+                            }
+                        }
+                        log.debug(res)
+                        log.debug(JSON.stringify(res))
+                        return JSON.stringify(res)
+                    }
+                    return responseText
+                }
+
+            }
         });
 
 
@@ -100,6 +140,11 @@ const Editor: React.FC<Props> = ({
                 const data = res.data
                 if (data.code == 200 && data.data) {
                     openSaveTost("保存成功", "", true)
+                    const article = data.data as ArticleDto | null
+                    if (article) {
+                        //  如果是新建的，保存之后要把id存储下来
+                        id = article?._id ? article?._id : id
+                    }
                 } else {
                     openSaveTost("保存失败", "文章保存失败，可能原因：服务端存储失败", false)
                 }

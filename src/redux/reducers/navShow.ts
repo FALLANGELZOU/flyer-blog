@@ -5,7 +5,7 @@ interface Action {
   data: boolean;
 }
 
-const initState = true;
+const initState = false;
 
 export default function addReducer(preState = initState, action: Action) {
   const { type, data } = action;

@@ -36,6 +36,7 @@ const getPoems = (count: number = 1) => {
 
 const Home: React.FC<Props> = ({ setNavShow }) => {
   useTitle(siteTitle);
+  setNavShow?.(false);
   setNavShow && useTop(setNavShow);
 
   const [poem, setPoem] = useSafeState(new Array<string>());
@@ -57,8 +58,8 @@ const Home: React.FC<Props> = ({ setNavShow }) => {
     <>
       <PageTitle title={siteTitle} desc={poem || [] } className={s.homeTitle} backgroundImage = {backgroundUrl}/>
       <div className={s.body}>
-        <Section />
-        <Aside />
+        {/* <Section /> */}
+        {/* <Aside /> */}
       </div>
     </>
   );

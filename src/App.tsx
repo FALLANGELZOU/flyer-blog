@@ -34,7 +34,7 @@ const App: React.FC<Props> = ({ mode, setMode }) => {
     <div className={classNames(s.AppBox)}>  
       <Nav />
       <Main />
-      <Footer />
+      {/* <Footer /> */}
       <BackToTop />
       {/* <Background/> */}
     </div>

@@ -36,7 +36,7 @@ const Main: React.FC = () => {
           <Suspense fallback={<></>}>
             <Routes>
               <Route path='/' element={<Home />} />
-              <Route path='articles' element={<Articles />} />
+              <Route path='articles/*' element={<Articles />} />
               <Route path='classes' element={<Classes />} />
               <Route path='tags' element={<Tags />} />
               <Route path='gallery' element={<Gallery />} />

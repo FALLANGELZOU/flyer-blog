@@ -3,7 +3,9 @@ import axios, { AxiosRequestConfig } from "axios"
 //  对axios进行简单的配置
 const developUrl = "http://localhost:3000/"
 const productionUrl = ""
-const BASE_URL = process.env.NODE_ENV === 'development' ? developUrl : productionUrl
+export const BASE_URL = process.env.NODE_ENV === 'development' ? developUrl : productionUrl
+export const getToken = () => localStorage.getItem("Authorization")
+export const uploadMdImageUrl = BASE_URL + 'api/image/upload-markdown-image'
 
 const $http = axios.create({
     baseURL: BASE_URL,
@@ -19,7 +21,6 @@ $http.interceptors.request.use((config) => {
     if (token && config.headers) {
         config.headers["Authorization"] = `Bearer ${token}`
     }
-
     return config
 }, err => {
     return err

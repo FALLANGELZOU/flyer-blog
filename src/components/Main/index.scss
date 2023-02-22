@@ -2,6 +2,7 @@
 
 .main {
   min-height: calc(100vh - #{$footerHeight + 2 * $space});
+  background-color: rgb(234,234,234);
   .center {
     width: $centerWidth;
     margin: auto;

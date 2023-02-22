@@ -5,6 +5,7 @@ import Vditor from "vditor";
 import '@/styles/vditor.custom.scss'
 import Login from "../Backend/Login";
 import ArticleDetail from "../Articles/ArticleDetail";
+import ImageWaterFall from "../Gallery/ImageWaterFall";
 
 const TestPage = () => {
 // const [vd, setVd] = useSafeState<Vditor>();
@@ -26,7 +27,12 @@ const TestPage = () => {
 
   return (
     <div>
-        <ArticleDetail></ArticleDetail>
+
+        <ImageWaterFall style={{
+          width:'100%',
+          height:'100vh'
+        }}/>
+        {/* <ArticleDetail></ArticleDetail> */}
     </div>
 
   

@@ -1,52 +1,31 @@
-import { useRequest, useSafeState } from 'ahooks';
-import React from 'react';
+import { useMount, useRequest, useSafeState, useTitle } from 'ahooks';
+import React, { HTMLAttributes, Suspense } from 'react';
+import { detailPostSize, siteTitle, staleTime } from '@/utils/constant';
+import $http from '@/utils/HttpService';
+import { Route, Routes } from 'react-router-dom';
+import ErrorBoundary from '@/components/ErrorBoundary';
+import ArticleList from './ArtList';
+import ArticleDetail from './ArticleDetail';
 
-import Layout from '@/components/Layout';
-import MyPagination from '@/components/MyPagination';
-import { DB } from '@/utils/apis/dbConfig';
-import { getWhereOrderPageSum } from '@/utils/apis/getWhereOrderPageSum';
-import { detailPostSize, staleTime } from '@/utils/constant';
-
-import { Title } from '../titleConfig';
-import ArtList from './ArtList';
-import Search from './Search';
 
 const Articles: React.FC = () => {
   const [page, setPage] = useSafeState(1);
+  const { data, loading } = useRequest(() => $http.get("api/get-article-overall"));
 
-  const [where, setWhere] = useSafeState(() => ({}));
-
-  const { data, loading, run } = useRequest(
-    () =>
-      getWhereOrderPageSum({
-        dbName: DB.Article,
-        where,
-        page,
-        size: detailPostSize,
-        sortKey: 'date'
-      }),
-    {
-      retryCount: 3,
-      refreshDeps: [page],
-      cacheKey: `Articles-${DB.Article}-${JSON.stringify(where)}-${page}`,
-      staleTime
-    }
-  );
-
+  useTitle(`${siteTitle} | 文章`);
   return (
-    <Layout title={Title.Articles}>
-      <Search page={page} setPage={setPage} where={where} setWhere={setWhere} run={run} />
-      <ArtList articles={data?.articles.data} loading={loading} />
-      <MyPagination
-        current={page}
-        defaultPageSize={detailPostSize}
-        total={data?.sum.total}
-        setPage={setPage}
-        autoScroll={true}
-        scrollToTop={440}
-      />
-    </Layout>
+    <>
+      <div>
+        <ErrorBoundary>
+          <Suspense fallback={<></>}>
+            <Routes>
+              <Route path="/" element={<ArticleList />} />
+              <Route path="/:id" element={<ArticleDetail />} />
+            </Routes>
+          </Suspense>
+        </ErrorBoundary>
+      </div>
+    </>
   );
 };
-
 export default Articles;

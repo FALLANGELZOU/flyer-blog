@@ -1,6 +1,30 @@
 @import "../../styles/base.scss";
 @import "../../styles/style.scss";
 
+
+.navContainer {
+  background-color: #ffffff;
+  overflow: hidden;
+}
+
+.navButtonContainer:hover {
+  .navButtonLine {
+    //visibility:visible;
+    width: 100%!important;
+    transition: all 0.1s linear;
+  }
+}
+
+
+.navButtonLine {
+  width: 0!important;
+  transition: all 0.1s linear;
+}
+
+
+
+
+
 .baseBtn {
   height: 44px;
   width: 70px;
@@ -16,16 +40,12 @@
   @extend .hover;
 }
 
-.hiddenNav {
-  box-shadow: none !important;
-  transform: translate(0, -$navHeight);
-}
 
 .nav {
   width: 100%;
   height: $navHeight;
   background-color: $color_rainbow_tertiary;
-  position: fixed;
+  // position: fixed;
   top: 0;
   z-index: 10;
   box-shadow: 0 0 18px $footerBg;
@@ -178,54 +198,3 @@
   }
 }
 
-// 手机端呼出导航的按钮
-.mobileNavBtn {
-  width: 50rem;
-  height: 50rem;
-  display: none;
-  justify-content: center;
-  align-items: center;
-  font-size: 22rem;
-  color: $textColor;
-  position: fixed;
-  top: 0;
-  right: 0;
-  z-index: 99;
-}
-
-// 手机端导航
-.mobileNavBox {
-  .mobileNavItem {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    color: $textColor;
-    font-size: 18rem;
-    font-family: "dengxian";
-    width: 60rem;
-    height: 34rem;
-    border-radius: 10rem;
-    margin-bottom: 16rem;
-  }
-  .mobileNavItem:last-child {
-    margin-bottom: 0;
-  }
-  .mobileNavActive {
-    @extend .mobileNavItem;
-    background-color: $hoverColor;
-  }
-  .modeItem {
-    @extend .mobileNavItem;
-    border: 2rem solid #ccc;
-  }
-}
-
-@media screen and (max-width: 1240px) {
-  .nav {
-    display: none;
-  }
-  .mobileNavBtn {
-    display: flex;
-  }
-}
