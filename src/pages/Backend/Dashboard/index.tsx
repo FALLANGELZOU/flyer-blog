@@ -2,7 +2,7 @@ import ErrorBoundary from "@/components/ErrorBoundary"
 import { storeState } from "@/redux/interface"
 import { setHiddenNav } from "@/redux/reducers/common"
 import { useUnmount } from "@/utils/FlyerHooks"
-import { FileImageOutlined, FormOutlined, LogoutOutlined, MailOutlined } from "@ant-design/icons"
+import { FileImageOutlined, FormOutlined, LogoutOutlined, MailOutlined, MessageOutlined } from "@ant-design/icons"
 import { useMount, useSafeState } from "ahooks"
 import { Menu, MenuProps } from "antd"
 import React, { lazy, Suspense } from "react"
@@ -24,7 +24,7 @@ const Dashboard: React.FC<Props> = ({
     const Overview = lazy(() => import(/* webpackPrefetch:true */ '../pages/Overview'))
     const Articles = lazy(() => import(/* webpackPrefetch:true */ '../pages/Articles'))
     const ImageHost = lazy(() => import(/* webpackPrefetch:true */ '../pages/ImageHost'))
-
+    const Notes = lazy(() => import(/* webpackPrefetch:true */ '../pages/Notes'))
     //  不能在dom渲染后再设置
     if (location.pathname != path) setPath(location.pathname)
 
@@ -60,6 +60,7 @@ const Dashboard: React.FC<Props> = ({
     const items: MenuItem[] = [
         getItem('总览', '/dashboard/overview', <MailOutlined />),
         getItem('文章', '/dashboard/articles', <FormOutlined />),
+        getItem('说说', '/dashboard/notes', <MessageOutlined />),
         getItem('图库', '/dashboard/image-host', <FileImageOutlined />),
         getItem('退出', '/', <LogoutOutlined />)
     ]
@@ -104,6 +105,7 @@ const Dashboard: React.FC<Props> = ({
                                 <Route path="overview" element={<Overview />} />
                                 <Route path="articles" element={<Articles />} />
                                 <Route path="image-host" element={<ImageHost/>} />
+                                <Route path="notes" element={<Notes/>} />
                             </Routes>
                         </Suspense>
                     </ErrorBoundary>

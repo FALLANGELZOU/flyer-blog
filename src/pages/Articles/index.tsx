@@ -4,7 +4,7 @@ import { detailPostSize, siteTitle, staleTime } from '@/utils/constant';
 import $http from '@/utils/HttpService';
 import { Route, Routes } from 'react-router-dom';
 import ErrorBoundary from '@/components/ErrorBoundary';
-import ArticleList from './ArtList';
+import ArticleList from './ArticleList';
 import ArticleDetail from './ArticleDetail';
 
 

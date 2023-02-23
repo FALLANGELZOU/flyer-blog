@@ -1,34 +1,78 @@
-import { useRequest } from 'ahooks';
+import $http from '@/utils/HttpService';
+import { useRequest, useSafeState } from 'ahooks';
+import { Timeline } from 'antd';
+import dayjs from 'dayjs';
+
 import React from 'react';
+import { NoteDto } from '../Backend/pages/Notes';
 
-import Layout from '@/components/Layout';
-import { DB } from '@/utils/apis/dbConfig';
-import { getOrderData } from '@/utils/apis/getOrderData';
-import { staleTime } from '@/utils/constant';
-
-import { Title } from '../titleConfig';
-import TimeItem from './TimeItem';
-
-interface Log {
-  _id: string;
-  date: number;
-  logContent: string[];
+interface TimeLineItemDto extends NoteDto {
+  
 }
 
+const colors = [
+  "#FFF9CA",
+  "#FFDEB4",
+  "#FFB4B4",
+  "#B2A4FF"
+]
 const Log: React.FC = () => {
-  const { data, loading } = useRequest(getOrderData, {
-    defaultParams: [{ dbName: DB.Log, sortKey: 'date' }],
-    retryCount: 3,
-    cacheKey: `Log-${DB.Log}`,
-    staleTime
-  });
+  const [renderDate, setRenderData] = useSafeState([])
+  const { data, loading } = useRequest(() => $http.get("api/get-notes"), {
+    onSuccess: (res, param) => {
+        if (res.data.code == 200) {
 
+            setRenderData(res.data.data.map((item: any, index: number) => {
+              let setMargin = null
+              if (index%2) {
+                setMargin = {
+                marginRight:'8px', 
+                marginLeft: 'auto'
+              }
+            } else {
+              setMargin = {
+                marginRight:'auto', 
+                marginLeft: '8px'
+              }
+            }
+              return ({
+                color: colors[Math.floor(Math.random()*colors.length)],
+                children: (
+                <div style={{
+                  display:'flex',
+                  minWidth:'20vw',
+                  maxWidth:'26vw',
+                  width:'fit-content',
+                  marginBottom:'64px',
+                  padding:'16px', 
+                  fontSize:'16rem',
+                  boxShadow:'rgb(136 165 191 / 48%) 6px 2px 16px 0px, rgb(255 255 255 / 80%) -6px -2px 16px 0px',
+                  backgroundColor:'white',
+                  flexDirection:"column",
+                  borderRadius:'8px',
+                  wordBreak: "break-all",
+                  color:"gray",
+                  ...setMargin
+                  
+                  }}>
+                  <div>{dayjs(item.createTime).format("YYYY-MM-DD")}</div>
+                  <div style={{fontWeight:'bold'}}>{item.message}</div>
+                </div>
+                ),
+                
+                key: item._id,
+                id: item.id,
+            
+            })}))
+        }
+    }
+})
   return (
-    <Layout title={Title.Log} loading={loading}>
-      {data?.data.map(({ _id, date, logContent }: Log) => (
-        <TimeItem key={_id} date={date} logContent={logContent} />
-      ))}
-    </Layout>
+    <>
+      <div style={{paddingTop:'128px'}}>
+      <Timeline mode="alternate" items = {renderDate} pending = {true}></Timeline>
+      </div>
+    </>
   );
 };
 

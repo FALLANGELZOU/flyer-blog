@@ -16,11 +16,9 @@ const Img = lazy(() => import(/* webpackPrefetch:true */ '@/pages/Img'));
 const Say = lazy(() => import(/* webpackPrefetch:true */ '@/pages/Say'));
 const Msg = lazy(() => import(/* webpackPrefetch:true */ '@/pages/Msg'));
 const Link = lazy(() => import(/* webpackPrefetch:true */ '@/pages/Link'));
-const Show = lazy(() => import(/* webpackPrefetch:true */ '@/pages/Show'));
 const Log = lazy(() => import(/* webpackPrefetch:true */ '@/pages/Log'));
 const About = lazy(() => import(/* webpackPrefetch:true */ '@/pages/About'));
 const Post = lazy(() => import(/* webpackPrefetch:true */ '@/pages/Post'));
-const ArtDetail = lazy(() => import(/* webpackPrefetch:true */ '@/pages/ArtDetail'));
 const TestPage = lazy(() => import(/* webpackPrefetch:true */ '@/pages/Test'))
 
 //  后台页面
@@ -35,6 +33,7 @@ const Main: React.FC = () => {
         <ErrorBoundary>
           <Suspense fallback={<></>}>
             <Routes>
+              {/* 前端 */}
               <Route path='/' element={<Home />} />
               <Route path='articles/*' element={<Articles />} />
               <Route path='classes' element={<Classes />} />
@@ -44,14 +43,12 @@ const Main: React.FC = () => {
               <Route path='say' element={<Say />} />
               <Route path='msg' element={<Msg />} />
               <Route path='link' element={<Link />} />
-              <Route path='show' element={<Show />} />
               <Route path='log' element={<Log />} />
               <Route path='about' element={<About />} />
               <Route path='post' element={<Post />} />
-              <Route path='artDetail' element={<ArtDetail />} />
               <Route path='*' element={<Navigate to='/' replace />} />
               <Route path='testPage' element={<TestPage />} />
-          
+              {/* 后台 */}
               <Route path='login' element = {<Login/>} />
               <Route path='dashboard/*' element = {<Dashboard/>} />
               
