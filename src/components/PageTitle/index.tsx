@@ -48,18 +48,6 @@ const PageTitle: React.FC<Props> = ({ title, desc, className, children, backgrou
       </div>
 
       {children}
-      {
-        backgroundImage && <img src={backgroundImage}
-          style={{
-            display: "flex",
-            objectFit: "cover",
-            position: "absolute",
-            height: "100vh",
-            width: "100vw",
-            zIndex: 0
-          }}
-        ></img>
-      }
     </div>
 
   );

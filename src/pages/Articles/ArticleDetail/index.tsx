@@ -1,6 +1,6 @@
 import FixImageV3 from "@/common/fix/FixImageV3";
 import { log } from "@/FlyerLog";
-import { useMemoizedFn, useMount, useSafeState } from "ahooks";
+import { useEventListener, useMemoizedFn, useMount, useSafeState } from "ahooks";
 import { Button, message, Space } from "antd";
 import React, { useRef } from "react";
 import Vditor from 'vditor'
@@ -21,7 +21,6 @@ const ArticleDetail = () => {
     const [author, setAuthor] = useSafeState("Light_Sun")
     const [messageApi, contextHolder] = message.useMessage();
 
-
     useMount(async () => {
         const id = params.id
         const res = await $http.post("/api/find-article", { _id: id })
@@ -40,10 +39,10 @@ const ArticleDetail = () => {
                         }
                     }
                 )
-    
+
             }
         }
-        
+
 
     })
 
@@ -58,111 +57,115 @@ const ArticleDetail = () => {
     }
 
     return (
-        <div style={{
-            width: '100%',
-            backgroundColor: "rgb(234,234,234)",
-            fontSize: '24px'
-        }}>
-            {contextHolder}
-            {/* 头图区域 */}
-            <div style={{ height: '40vh', }}>
-                <img
-                    style={{
-                        objectFit: 'cover',
-                        width: "100%",
-                        height: "100%"
-                    }}
-                    src={backgroundImage} />
-            </div>
-
+        <>
             <div style={{
-
-                position: 'relative',
-                top: "-10vh",
-                display: 'flex',
-                flexDirection: 'row',
-                marginLeft: '5%',
-                marginRight: '5%'
-
+                width: '100%',
+                backgroundColor: "rgb(234,234,234)",
+                fontSize: '24px',
+                minHeight:'120vh'
             }}>
+                {contextHolder}
+                {/* 头图区域 */}
+                <div style={{ height: '40vh', }}>
+                    <img
+                        style={{
+                            objectFit: 'cover',
+                            width: "100%",
+                            height: "100%"
+                        }}
+                        src={backgroundImage} />
+                </div>
+
                 <div style={{
-                    width: '75%',
-                    backgroundColor: 'white',
-                    borderRadius: "10px",
-                    paddingTop: '10px',
-                    paddingLeft: '20px',
-                    paddingRight: '20px',
-                    paddingBottom: "40px"
+
+                    position: 'relative',
+                    top: "-10vh",
+                    display: 'flex',
+                    flexDirection: 'row',
+                    marginLeft: '5%',
+                    marginRight: '5%'
+
                 }}>
+                    <div style={{
+                        width: '75%',
+                        backgroundColor: 'white',
+                        borderRadius: "10px",
+                        paddingTop: '10px',
+                        paddingLeft: '20px',
+                        paddingRight: '20px',
+                        paddingBottom: "40px"
+                    }}>
 
-                    <div>
-                        <Space wrap>
-                            <div>发布时间：{createTime}</div>
-                            <div>|</div>
-                            <div>文章字数: {mdValue.length}</div>
-                        </Space>
-                    </div>
+                        <div>
+                            <Space wrap>
+                                <div>发布时间：{createTime}</div>
+                                <div>|</div>
+                                <div>文章字数: {mdValue.length}</div>
+                            </Space>
+                        </div>
 
-                    <div>
-                        <div id="markdownLayout" ref={mdLayout}></div>
+                        <div>
+                            <div id="markdownLayout" ref={mdLayout}></div>
+                        </div>
+                        <div style={{
+                            color: "gray",
+                            borderTop: "1px solid #eaecef",
+                            paddingTop: '20px',
+                            lineHeight: '1.5em'
+                        }}>
+                            <div style={{ fontSize: '15rem', fontWeight: 'bold' }}>文章作者：{author}</div>
+                            <div style={{ fontSize: '15rem', fontWeight: 'bold' }}>©版权声明: 本博客所有文章除特別声明外，均采用 CC BY 4.0 许可协议。转载请注明来源!</div>
+                        </div>
+
+                        <div style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            marginTop: '20px'
+                        }}>
+                            <Space wrap>
+                                <Button shape="circle" size="large" style={{
+                                    height: '50px',
+                                    width: "50px",
+                                    backgroundColor: "#F44336",
+                                    color: "white",
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center"
+                                }}
+                                    onClick={onClickHeart}
+                                >
+                                    <HeartOutlined style={{ fontSize: '24px' }} />
+                                </Button>
+                            </Space>
+
+
+
+                        </div>
                     </div>
                     <div style={{
-                        color: "gray",
-                        borderTop: "1px solid #eaecef",
-                        paddingTop: '20px',
-                        lineHeight: '1.5em'
+                        width: '25%',
+                        padding: '10px',
+                        marginLeft: '20px',
+                        backgroundColor: 'white',
+                        borderRadius: "10px",
+                        paddingLeft: '20px',
+                        paddingRight: '16px',
+                        height: 'fit-content',
+                        overflow: "hidden",
+                        whiteSpace: "nowrap",
+                        textOverflow: "ellipsis"
                     }}>
-                        <div style={{fontSize:'15rem', fontWeight:'bold'}}>文章作者：{author}</div>
-                        <div style={{fontSize:'15rem', fontWeight:'bold'}}>©版权声明: 本博客所有文章除特別声明外，均采用 CC BY 4.0 许可协议。转载请注明来源!</div>
-                    </div>
-
-                    <div style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        marginTop: '20px'
-                    }}>
-                        <Space wrap>
-                            <Button shape="circle" size="large" style={{
-                                height: '50px',
-                                width: "50px",
-                                backgroundColor: "#F44336",
-                                color: "white",
-                                display: "flex",
-                                justifyContent: "center",
-                                alignItems: "center"
-                            }}
-                                onClick={onClickHeart}
-                            >
-                                <HeartOutlined style={{ fontSize: '24px' }} />
-                            </Button>
-                        </Space>
-
-
-
+                        <div style={{ fontSize: '18px' }}>
+                            <div style={{ paddingLeft: '8px', borderBottom: "1px solid #eaecef", paddingBottom: '10px' }}>
+                                <UnorderedListOutlined /> 文章目录</div>
+                            <div ref={outlineLayout}></div>
+                        </div>
                     </div>
                 </div>
-                <div style={{
-                    width: '25%',
-                    padding: '10px',
-                    marginLeft: '20px',
-                    backgroundColor: 'white',
-                    borderRadius: "10px",
-                    paddingLeft: '20px',
-                    paddingRight: '16px',
-                    height: 'fit-content',
-                    overflow: "hidden",
-                    whiteSpace: "nowrap",
-                    textOverflow: "ellipsis"
-                }}>
-                    <div style={{ fontSize: '18px' }}>
-                        <div style={{ paddingLeft: '8px', borderBottom: "1px solid #eaecef", paddingBottom: '10px' }}>
-                            <UnorderedListOutlined /> 文章目录</div>
-                        <div ref={outlineLayout}></div>
-                    </div>
-                </div>
+                {/* <div>猜你喜欢，下篇上篇等</div> */}
             </div>
-            {/* <div>猜你喜欢，下篇上篇等</div> */}
-        </div>
+        </>
+
 
     )
 }

@@ -56,11 +56,25 @@ const Home: React.FC<Props> = ({ setNavShow }) => {
 
   return (
     <>
+      <div style={{display:'flex', width:'100%', height:'100%', position:'relative'}}>
       <PageTitle title={siteTitle} desc={poem || [] } className={s.homeTitle} backgroundImage = {backgroundUrl}/>
-      <div className={s.body}>
+      <img src={backgroundUrl}
+          style={{
+            display: "flex",
+            objectFit: "cover",
+            position: "absolute",
+            height: "100vh",
+            width: "100vw",
+            zIndex: 0,
+            top:0
+          }}
+        ></img>
+
+      </div>
+      
         {/* <Section /> */}
         {/* <Aside /> */}
-      </div>
+      
     </>
   );
 };

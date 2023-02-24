@@ -1,5 +1,6 @@
+import { siteTitle } from '@/utils/constant';
 import $http from '@/utils/HttpService';
-import { useRequest, useSafeState } from 'ahooks';
+import { useRequest, useSafeState, useTitle } from 'ahooks';
 import { Timeline } from 'antd';
 import dayjs from 'dayjs';
 
@@ -17,6 +18,7 @@ const colors = [
   "#B2A4FF"
 ]
 const Log: React.FC = () => {
+  useTitle(`${siteTitle} | 碎碎念`);
   const [renderDate, setRenderData] = useSafeState([])
   const { data, loading } = useRequest(() => $http.get("api/get-notes"), {
     onSuccess: (res, param) => {
@@ -44,7 +46,7 @@ const Log: React.FC = () => {
                   maxWidth:'26vw',
                   width:'fit-content',
                   marginBottom:'64px',
-                  padding:'16px', 
+                  padding:'16px',
                   fontSize:'16rem',
                   boxShadow:'rgb(136 165 191 / 48%) 6px 2px 16px 0px, rgb(255 255 255 / 80%) -6px -2px 16px 0px',
                   backgroundColor:'white',

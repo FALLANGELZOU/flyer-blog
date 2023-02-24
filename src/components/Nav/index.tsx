@@ -22,6 +22,7 @@ const flyerNavList = [
   { name: '文章', to: '/articles' },
   { name: '图库', to: '/gallery' },
   { name: '碎碎念', to: '/log' },
+  { name: '友人帐', to: '/friends'},
   { name: '关于', to: '/about' },
   { name: "测试页面", to: '/testPage'},
 ]
@@ -36,12 +37,13 @@ const Nav: React.FC<Props> = ({ hiddenNav }) => {
   useEventListener(
     'mousewheel',
     event => {
+   
       if (event.wheelDeltaY>0 == show) return
       event = event || window.event;
       setShow(event.wheelDeltaY > 0);
 
     },
-    { target: document.body }
+    { target: document.querySelector("main") }
   );
     
   return (

@@ -16,7 +16,11 @@ interface Props {
 
 const BackToTop: React.FC<Props> = ({ setNavShow }) => {
   return (
-    <FloatButton.BackTop icon={<ArrowUpOutlined/>} style={{zIndex:'100'}}/>
+    <FloatButton.BackTop 
+    icon={<ArrowUpOutlined/>} 
+    style={{zIndex:'100'}}
+
+    />
   );
 };
 

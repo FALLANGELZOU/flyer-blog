@@ -1,7 +1,7 @@
 import { log } from '@/FlyerLog';
 import $http from '@/utils/HttpService';
-import { useSafeState, useThrottleFn } from 'ahooks';
-import React, { ImgHTMLAttributes, useEffect, useRef, useState } from 'react';
+import { useInViewport, useLatest, useSafeState, useThrottleFn, useUpdateEffect } from 'ahooks';
+import React, { HTMLAttributes, ImgHTMLAttributes, useEffect, useRef, useState } from 'react';
 import { render } from 'react-dom';
 import "./index.custom.scss"
 import {
@@ -10,14 +10,17 @@ import {
     createMasonryCellPositioner,
     Masonry,
     MasonryCellProps,
+    OnScrollCallback,
     Positioner,
 } from 'react-virtualized';
 
 interface MasonryComponentProp {
-    itemsWithSizes: any
+    itemsWithSizes: any,
+    onScroll?: Function
 }
 const MasonryComponent: React.FC<MasonryComponentProp> = ({
-    itemsWithSizes
+    itemsWithSizes,
+    onScroll
 }) => {
     //  默认设置
     const [containerWidth, setContainerWidth] = useSafeState(0)
@@ -28,13 +31,16 @@ const MasonryComponent: React.FC<MasonryComponentProp> = ({
     const defaultWidth = 200;
 
     const bottomEl = useRef(null)
+
     const el = useRef<HTMLDivElement>(null)
     const [show, setShow] = useSafeState(false)
 
 
+    const mel = useRef(null)
 
     const init = () => {
         
+ 
 
         const cache = new CellMeasurerCache({
             defaultHeight,
@@ -49,13 +55,14 @@ const MasonryComponent: React.FC<MasonryComponentProp> = ({
             spacer: 10,
         });
 
+       
+
         const cellRenderer = ({ index, key, parent, style }: MasonryCellProps) => {
             const { url, width, height } = itemsWithSizes[index];
             const columnWidth = containerWidth / 3
             const columnHeight = columnWidth * (height / width) || defaultHeight;
-
             return (
-                <CellMeasurer cache={cache} index={index} key={key} parent={parent}>
+                <CellMeasurer cache={cache} index={index} key={`${key}`} parent={parent}>
                     <div style={style}>
                         <img
                             className='fade'
@@ -73,6 +80,7 @@ const MasonryComponent: React.FC<MasonryComponentProp> = ({
 
         return (
             <Masonry
+                ref={mel}
                 cellCount={itemsWithSizes.length}
                 cellMeasurerCache={cache}
                 cellPositioner={cellPositioner}
@@ -80,18 +88,23 @@ const MasonryComponent: React.FC<MasonryComponentProp> = ({
                 height={containerHeight}
                 width={containerWidth}
                 autoHeight={false}
+                
+                onScroll = {(param: { clientHeight: number; scrollHeight: number; scrollTop: number }) => {
+                    onScroll?.(param)
+                    if (param.scrollTop + param.clientHeight + 200 >= param.scrollHeight) {
+                    
+                    }
+                }}
             />
         )
     }
 
 
 
-
+    
 
     useEffect(() => {
         if (el.current) {
-            //setColumnWidth(el.current.offsetWidth)
-
             setContainerHeight(el.current.offsetHeight)
             setContainerWidth(el.current.offsetWidth)
             init()
@@ -123,12 +136,15 @@ const MasonryComponent: React.FC<MasonryComponentProp> = ({
     );
 };
 
-interface Props extends ImgHTMLAttributes<HTMLDivElement> {
+interface Props extends HTMLAttributes<HTMLDivElement> {
+    onScroll?: (param: any) => void
 }
 
 const ImageWaterFall: React.FC<Props> = ({
     className,
-    style
+    style,
+    id,
+    onScroll
 }) => {
 
     const [noCacheList, setNoCacheList] = useSafeState([])
@@ -138,29 +154,38 @@ const ImageWaterFall: React.FC<Props> = ({
         }).then((_) => {
             const res = _.data
             if (res.code == 200) {
-                const urls = res.data.map((item: any) => {
+                const urls = res.data.map((item: any, index: number) => {
                     return {
-                        url: item.url,
+                        key: index,
+                        url: item.url + '?noCache=' + Math.random(),
                         width: item.width,
                         height: item.height
                     }
                 })
                 setNoCacheList(list => list.concat(urls))
-                //setImgs((img) => img.concat(urls))
+    
             }
         })
     }, { wait: 2000 })
 
     useEffect(() => {
-        fetch(100)
+        fetch(200)
     }, [])
+
+    //  不能动态添加数据
+    const innerOnScroll = (param: { clientHeight: number; scrollHeight: number; scrollTop: number }) => {
+
+    }
+
     return (
         <div
             className={className}
             style={style}
+            id = {id}
         >
             <MasonryComponent
                 itemsWithSizes={noCacheList}
+                onScroll = {(param: any) => {onScroll?.(param); innerOnScroll(param)}}
             />
         </div>
 

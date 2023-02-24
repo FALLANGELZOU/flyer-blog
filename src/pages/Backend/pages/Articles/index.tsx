@@ -78,7 +78,6 @@ const BEArticles = () => {
 
     const onDelete = (data: DataType, index: number) => {
         if (data.key) {
-            log.debug(data, index)
             $http.post("/api/article-delete", {
                 _id: data.key
             }).then(res => {

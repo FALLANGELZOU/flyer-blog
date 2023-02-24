@@ -4,7 +4,7 @@ import { setHiddenNav } from "@/redux/reducers/common"
 import API from "@/utils/apis/FlyerApi"
 import { useUnmount } from "@/utils/FlyerHooks"
 import { LockOutlined, UserOutlined } from "@ant-design/icons"
-import { useLatest, useMount } from "ahooks"
+import { useLatest, useMount, useTitle } from "ahooks"
 import { Button, Input, Space } from "antd"
 import React from "react"
 import { connect } from "react-redux"
@@ -21,7 +21,7 @@ const Login: React.FC<Props> = ({
     const navigate = useNavigate()
     const username = useLatest("")
     const password = useLatest("")
-
+    useTitle("核心控制系统")
     const changePassword = (e: any) => {
         password.current = e.target.value
 

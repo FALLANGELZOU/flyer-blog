@@ -19,6 +19,7 @@ const Link = lazy(() => import(/* webpackPrefetch:true */ '@/pages/Link'));
 const Log = lazy(() => import(/* webpackPrefetch:true */ '@/pages/Log'));
 const About = lazy(() => import(/* webpackPrefetch:true */ '@/pages/About'));
 const Post = lazy(() => import(/* webpackPrefetch:true */ '@/pages/Post'));
+const Friends = lazy(() => import(/* webpackPrefetch:true */ '@/pages/Friends'));
 const TestPage = lazy(() => import(/* webpackPrefetch:true */ '@/pages/Test'))
 
 //  后台页面
@@ -28,7 +29,7 @@ const Login = lazy(() => import(/* webpackPrefetch:true */ '@/pages/Backend/Logi
 const Main: React.FC = () => {
 
   return (
-    <main className={s.main}>
+    <main className={s.main} id = "main_root">
       <div className={s.center}>
         <ErrorBoundary>
           <Suspense fallback={<></>}>
@@ -36,6 +37,7 @@ const Main: React.FC = () => {
               {/* 前端 */}
               <Route path='/' element={<Home />} />
               <Route path='articles/*' element={<Articles />} />
+              
               <Route path='classes' element={<Classes />} />
               <Route path='tags' element={<Tags />} />
               <Route path='gallery' element={<Gallery />} />
@@ -46,6 +48,7 @@ const Main: React.FC = () => {
               <Route path='log' element={<Log />} />
               <Route path='about' element={<About />} />
               <Route path='post' element={<Post />} />
+              <Route path='friends' element={<Friends />} />
               <Route path='*' element={<Navigate to='/' replace />} />
               <Route path='testPage' element={<TestPage />} />
               {/* 后台 */}
