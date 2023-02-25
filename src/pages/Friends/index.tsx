@@ -27,9 +27,9 @@ const Friends = () => {
                     borderRadius:'8px'
                 }}>
                     <div style={{marginRight:'16px' }}><Avatar src={item.avatar} size={64} icon={<UserOutlined />} /></div>
-                    <div style={{ fontSize: '24rem'}}>
-                        <div>{item.name}</div>
-                        <div style={{ fontSize: '16rem' }}>{item.desc}</div>
+                    <div style={{ }}>
+                        <div style={{fontSize: '20rem', fontWeight:'bold'}}>{item.name}</div>
+                        <div style={{ fontSize: '12rem', color:'gray' }}>{item.desc}</div>
                     </div>
 
                 </div>
