@@ -1,6 +1,6 @@
 import './global.custom.scss';
 
-import { useLocalStorageState, useMount } from 'ahooks';
+import { useEventListener, useLocalStorageState, useMount } from 'ahooks';
 import classNames from 'classnames';
 import React from 'react';
 import { connect } from 'react-redux';
@@ -14,6 +14,7 @@ import BackToTop from './components/BackToTop';
 import { setMode } from './redux/actions';
 import { storeState } from './redux/interface';
 import Background from './components/Background';
+import { useEvent } from './utils/FlyerHooks';
 
 interface Props {
   mode?: number;
@@ -23,8 +24,12 @@ interface Props {
 const App: React.FC<Props> = ({ mode, setMode }) => {
   const bgClasses = [s.bg0, s.bg1, s.bg2];
   const [localMode] = useLocalStorageState('localMode');
-
+  // useEventListener("resize", (event) => {
+  //   useEvent.emit("resize", event)
+  // })
   useMount(() => {
+    
+
     if (localMode !== undefined) {
       setMode?.(localMode);
     }

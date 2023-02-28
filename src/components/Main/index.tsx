@@ -15,7 +15,6 @@ const Gallery = lazy(() => import(/* webpackPrefetch:true */ '@/pages/Gallery'))
 const Img = lazy(() => import(/* webpackPrefetch:true */ '@/pages/Img'));
 const Say = lazy(() => import(/* webpackPrefetch:true */ '@/pages/Say'));
 const Msg = lazy(() => import(/* webpackPrefetch:true */ '@/pages/Msg'));
-const Link = lazy(() => import(/* webpackPrefetch:true */ '@/pages/Link'));
 const Log = lazy(() => import(/* webpackPrefetch:true */ '@/pages/Log'));
 const About = lazy(() => import(/* webpackPrefetch:true */ '@/pages/About'));
 const Post = lazy(() => import(/* webpackPrefetch:true */ '@/pages/Post'));
@@ -44,7 +43,6 @@ const Main: React.FC = () => {
               <Route path='img' element={<Img />} />
               <Route path='say' element={<Say />} />
               <Route path='msg' element={<Msg />} />
-              <Route path='link' element={<Link />} />
               <Route path='log' element={<Log />} />
               <Route path='about' element={<About />} />
               <Route path='post' element={<Post />} />

@@ -1,3 +1,6 @@
+import { useEvent, useUnmount } from "@/utils/FlyerHooks";
+import { useEventListener, useMount } from "ahooks";
+import EventEmitter from "events";
 
 const standardWidth = 1440; //  同一尺寸为1440px
 
@@ -12,3 +15,7 @@ export const initFont = () => {
 export const styleUtil = {
     initFont
 }
+
+
+
+

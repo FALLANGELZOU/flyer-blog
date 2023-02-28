@@ -16,16 +16,26 @@ import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { storeState } from '@/redux/interface';
 import s from './index.scss';
 import Expanse from './Expanse';
+import { isProduction } from '@/FlyerConfig';
 
-const flyerNavList = [
+
+let flyerNavList = [
   { name: '主页', to: '/' },
   { name: '文章', to: '/articles' },
   { name: '图库', to: '/gallery' },
   { name: '碎碎念', to: '/log' },
   { name: '友人帐', to: '/friends'},
-  { name: '关于', to: '/about' },
-  { name: "测试页面", to: '/testPage'},
 ]
+if (isProduction) {
+} else {
+  flyerNavList = flyerNavList.concat([
+    { name: '关于', to: '/about' },
+    { name: "测试页面", to: '/testPage'}
+  ])
+}
+
+
+
 interface Props {
   hiddenNav?: boolean;
 }

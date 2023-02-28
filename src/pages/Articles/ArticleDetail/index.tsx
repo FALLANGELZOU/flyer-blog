@@ -1,7 +1,7 @@
 import FixImageV3 from "@/common/fix/FixImageV3";
 import { log } from "@/FlyerLog";
 import { useEventListener, useMemoizedFn, useMount, useSafeState } from "ahooks";
-import { Button, message, Space } from "antd";
+import { Button, message, Skeleton, Space } from "antd";
 import React, { useRef } from "react";
 import Vditor from 'vditor'
 import '@/styles/vditor.custom.scss'
@@ -20,7 +20,7 @@ const ArticleDetail = () => {
     const [createTime, setCreateTime] = useSafeState("2023-02-01")
     const [author, setAuthor] = useSafeState("Light_Sun")
     const [messageApi, contextHolder] = message.useMessage();
-
+    const [active, setActive] = useSafeState(false)
     useMount(async () => {
         const id = params.id
         const res = await $http.post("/api/find-article", { _id: id })
@@ -36,6 +36,9 @@ const ArticleDetail = () => {
                         after: () => {
                             // 渲染大纲
                             Vditor.outlineRender(mdLayout.current!, outlineLayout.current!)
+                            //  渲染回调
+                            setActive(true)
+                            log.debug("渲染完成")
                         }
                     }
                 )
@@ -58,11 +61,12 @@ const ArticleDetail = () => {
 
     return (
         <>
+
             <div style={{
                 width: '100%',
                 backgroundColor: "rgb(234,234,234)",
                 fontSize: '24px',
-                minHeight:'120vh'
+                minHeight: '120vh'
             }}>
                 {contextHolder}
                 {/* 头图区域 */}
@@ -75,17 +79,32 @@ const ArticleDetail = () => {
                         }}
                         src={backgroundImage} />
                 </div>
+                <div style={{
+                    marginLeft: '5%',
+                    marginRight: '5%',
+                    display: active ? 'none' :'block'
+                }}>
+                    <Skeleton active paragraph = {{
+                        rows:4
+                    }} title ></Skeleton>
+                    <Skeleton active paragraph = {{
+                        rows:5
+                    }} title = {false} ></Skeleton>
+                    <Skeleton active paragraph = {{
+                        rows:3
+                    }} title = {false} ></Skeleton>
+                </div>
 
                 <div style={{
-
                     position: 'relative',
                     top: "-10vh",
-                    display: 'flex',
+                    display: active?'flex':'none',
                     flexDirection: 'row',
                     marginLeft: '5%',
                     marginRight: '5%'
-
+                    
                 }}>
+                    
                     <div style={{
                         width: '75%',
                         backgroundColor: 'white',
