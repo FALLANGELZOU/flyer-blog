@@ -80,7 +80,7 @@ const Dashboard: React.FC<Props> = ({
                 color: 'black',
                 display: 'flex',
                 flexDirection: 'row',
-                height:'100%'
+               
             }}>
                 <div style={{
                     margin: '10px'

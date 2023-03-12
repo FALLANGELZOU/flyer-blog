@@ -2,7 +2,7 @@ import { log } from "@/FlyerLog"
 import axios, { AxiosRequestConfig } from "axios"
 //  对axios进行简单的配置
 const developUrl = "http://localhost:3000/"
-const productionUrl = "http://58.221.197.198:25570"
+const productionUrl = "http://58.221.197.198:25570/"
 export const BASE_URL = process.env.NODE_ENV === 'development' ? developUrl : productionUrl
 export const getToken = () => localStorage.getItem("Authorization")
 export const uploadMdImageUrl = BASE_URL + 'api/image/upload-markdown-image'

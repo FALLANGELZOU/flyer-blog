@@ -1,18 +1,35 @@
+import { getImages } from "@/api/image.api"
 import { log } from "@/FlyerLog"
 import { BASE_URL, getToken } from "@/utils/HttpService"
 import { UploadOutlined } from "@ant-design/icons"
-import { useMount } from "ahooks"
+import { useMount, useRequest, useUpdateEffect } from "ahooks"
 import { Button, message, Space, Upload, UploadProps } from "antd"
-import React from "react"
+import React, { useState } from "react"
 import Masonry from "react-masonry-component"
+import FixMasonry, { ImageRenderInfo } from "./FixMasonry"
 
 const BEImageHost = () => {
-    const getImages = () => {
 
-    }
+    const { data, loading } = useRequest(() => getImages({
+
+    }))
+
+    const [imageData, setImageData] = useState<ImageRenderInfo[]>([])
+
+
     useMount(() => {
 
     })
+
+    useUpdateEffect(() => {
+        const images: ImageRenderInfo[] = data?.data.map((item: any) => ({
+            width: item.width,
+            height: item.height,
+            url: "http://localhost:3000/service/i/api/images/" + item.file.filePath,
+            thumbUrl: item.thumbPath
+        }))
+        setImageData(images)
+    }, [loading])
 
     const uploadProps: UploadProps = {
         name: 'file',
@@ -46,10 +63,12 @@ const BEImageHost = () => {
         <>
             <div>
 
-                <Space wrap>
+                <Space wrap style={{
+                    paddingBottom: '20px'
+                }}>
                     <div>
                         <Upload {...uploadProps}>
-                            <Button icon={<UploadOutlined />}>上传图片</Button>
+                            <Button icon={<UploadOutlined style={{color: "black"}}/>}>上传图片</Button>
                         </Upload>
                     </div>
                     <div>搜索图片</div>
@@ -57,13 +76,15 @@ const BEImageHost = () => {
                 </Space>
 
                 <div>
-                    <Masonry
-                        updateOnEachImageLoad
-                    >
-                        {
-
-                        }
-                    </Masonry>
+                    <FixMasonry
+                        renderData={imageData} 
+                        renderItem={(item) => <img 
+                            src = {item.url}
+                            style = {{width: '100%'}}
+                        ></img>}   
+                        columnGetter = {5}
+                        rowGetter = {5}
+                        ></FixMasonry>
                 </div>
 
                 <div>分页</div>
