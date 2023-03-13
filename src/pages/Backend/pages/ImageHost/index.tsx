@@ -28,7 +28,7 @@ const BEImageHost = () => {
             url: "http://localhost:3000/service/i/api/images/" + item.file.filePath,
             thumbUrl: item.thumbPath
         }))
-        setImageData(images)
+        setImageData(images.concat(images).concat(images))
     }, [loading])
 
     const uploadProps: UploadProps = {
@@ -38,27 +38,27 @@ const BEImageHost = () => {
             Authorization: `Bearer ${getToken()}`,
         },
         onChange(info) {
-          if (info.file.status !== 'uploading') {
-            // console.log(info.file, info.fileList);
-          }
-          if (info.file.status === 'done') {
-            log.debug(info.file.response)
-            message.success(`${info.file.name} file uploaded successfully`);
-          } else if (info.file.status === 'error') {
-            message.error(`${info.file.name} file upload failed.`);
-          }
+            if (info.file.status !== 'uploading') {
+                // console.log(info.file, info.fileList);
+            }
+            if (info.file.status === 'done') {
+                log.debug(info.file.response)
+                message.success(`${info.file.name} file uploaded successfully`);
+            } else if (info.file.status === 'error') {
+                message.error(`${info.file.name} file upload failed.`);
+            }
         },
         progress: {
             strokeColor: {
-              '0%': '#108ee9',
-              '100%': '#87d068',
+                '0%': '#108ee9',
+                '100%': '#87d068',
             },
             strokeWidth: 3,
             format: (percent) => percent && `${parseFloat(percent.toFixed(2))}%`,
-          },
-      };
+        },
+    };
 
-      
+
     return (
         <>
             <div>
@@ -68,7 +68,7 @@ const BEImageHost = () => {
                 }}>
                     <div>
                         <Upload {...uploadProps}>
-                            <Button icon={<UploadOutlined style={{color: "black"}}/>}>上传图片</Button>
+                            <Button icon={<UploadOutlined style={{ color: "black" }} />}>上传图片</Button>
                         </Upload>
                     </div>
                     <div>搜索图片</div>
@@ -77,14 +77,15 @@ const BEImageHost = () => {
 
                 <div>
                     <FixMasonry
-                        renderData={imageData} 
-                        renderItem={(item) => <img 
-                            src = {item.url}
-                            style = {{width: '100%'}}
-                        ></img>}   
-                        columnGetter = {5}
-                        rowGetter = {5}
-                        ></FixMasonry>
+                        renderData={imageData}
+                        renderItem={(item) => <img
+                            src={item.url}
+                            style={{ width: '100%' }}
+                        ></img>}
+                        column={3}
+                        columnGetter={5}
+                        rowGetter={5}
+                    ></FixMasonry>
                 </div>
 
                 <div>分页</div>
