@@ -1,4 +1,5 @@
-import { getImages } from "@/api/image.api"
+import { ImageDto } from "@/api/dto/common.dto"
+import { formatImageUrl, formatThumbUrl, getImages } from "@/api/image.api"
 import { log } from "@/FlyerLog"
 import { BASE_URL, getToken } from "@/utils/HttpService"
 import { UploadOutlined } from "@ant-design/icons"
@@ -11,7 +12,7 @@ import FixMasonry, { ImageRenderInfo } from "./FixMasonry"
 const BEImageHost = () => {
 
     const { data, loading } = useRequest(() => getImages({
-
+        pageSize: 50
     }))
 
     const [imageData, setImageData] = useState<ImageRenderInfo[]>([])
@@ -22,13 +23,13 @@ const BEImageHost = () => {
     })
 
     useUpdateEffect(() => {
-        const images: ImageRenderInfo[] = data?.data.map((item: any) => ({
+        const images: ImageRenderInfo[] = data?.data.map((item: ImageDto) => ({
             width: item.width,
             height: item.height,
-            url: "http://localhost:3000/service/i/api/images/" + item.file.filePath,
-            thumbUrl: item.thumbPath
+            url: formatImageUrl(item),
+            thumbUrl: formatThumbUrl(item)
         }))
-        setImageData(images.concat(images).concat(images))
+        setImageData(images)
     }, [loading])
 
     const uploadProps: UploadProps = {

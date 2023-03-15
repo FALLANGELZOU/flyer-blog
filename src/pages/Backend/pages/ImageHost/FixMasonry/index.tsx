@@ -115,7 +115,7 @@ const FixMasonry: (param: Props) => JSX.Element = ({
     const {run: updateShowIndex} = useThrottleFn(() => {
         if (wrapper.current) {
             const info = wrapper.current.getBoundingClientRect()
-            const padding = window.innerHeight / 2
+            const padding = window.innerHeight
             const bottom = window.innerHeight - info.bottom
             const top = info.top 
             
@@ -252,11 +252,11 @@ const FixMasonry: (param: Props) => JSX.Element = ({
                     renderDataFromStartToEnd(startIndex, endIndex)
                 }
             </div>
-            <div
+            {/* <div
                 className="_fix_masonry_fill"
                 style={{
                     height: containerHeight
-                }}></div>
+                }}></div> */}
         </div>
 
     )

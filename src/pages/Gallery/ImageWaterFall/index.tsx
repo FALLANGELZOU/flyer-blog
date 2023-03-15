@@ -13,6 +13,8 @@ import {
     OnScrollCallback,
     Positioner,
 } from 'react-virtualized';
+import { formatImageUrl, randomImage } from '@/api/image.api';
+import { ImageDto } from '@/api/dto/common.dto';
 
 interface MasonryComponentProp {
     itemsWithSizes: any,
@@ -149,23 +151,37 @@ const ImageWaterFall: React.FC<Props> = ({
 
     const [noCacheList, setNoCacheList] = useSafeState([])
     const { run: fetch } = useThrottleFn((num = 10) => {
-        $http.post("api/images", {
+        randomImage({
             num
-        }).then((_) => {
-            const res = _.data
-            if (res.code == 200) {
-                const urls = res.data.map((item: any, index: number) => {
-                    return {
-                        key: index,
-                        url: item.url + '?noCache=' + Math.random(),
-                        width: item.width,
-                        height: item.height
-                    }
-                })
-                setNoCacheList(list => list.concat(urls))
-    
-            }
+        }).then(res => {
+            const urls = res.data.map((image: ImageDto, index: number) => {
+                return {
+                    key: index,
+                    url: formatImageUrl(image) + '?noCache=' + Math.random(),
+                    width: image.width,
+                    height: image.height
+                }
+            })
+            setNoCacheList(list => list.concat(urls))
+            
         })
+        // $http.post("api/images", {
+        //     num
+        // }).then((_) => {
+        //     const res = _.data
+        //     if (res.code == 200) {
+        //         const urls = res.data.map((item: any, index: number) => {
+        //             return {
+        //                 key: index,
+        //                 url: item.url + '?noCache=' + Math.random(),
+        //                 width: item.width,
+        //                 height: item.height
+        //             }
+        //         })
+        //         setNoCacheList(list => list.concat(urls))
+    
+        //     }
+        // })
     }, { wait: 2000 })
 
     useEffect(() => {

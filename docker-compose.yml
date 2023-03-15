@@ -1,0 +1,26 @@
+version: '3.8'
+services:
+  flyer-blog:
+    container_name: flyer-blog
+    restart: always
+    ports:
+      - "25572:80"
+    image: "lightsssun/flyer-blog:latest"
+  
+  flyer-blog-chamberlain:
+    container_name: flyer-blog-chamberlain
+    restart: always
+    ports:
+      - "25570:3000"
+    image: "lightsssun/flyer-blog-chamberlain:latest"
+  
+  flyer-files:
+    container_name: flyer-files
+    restart: always
+    environment:
+      - NODE_ENV=production
+    ports:
+      - "3001:3001"
+    volumes:
+      - "/home:/app/resource"
+    image: "lightsssun/flyer-files:latest"

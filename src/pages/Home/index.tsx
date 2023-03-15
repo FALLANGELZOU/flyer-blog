@@ -1,4 +1,4 @@
-import { useMount, useSafeState, useTitle } from 'ahooks';
+import { useMount, useRequest, useSafeState, useTitle, useUpdateEffect } from 'ahooks';
 import React from 'react';
 import { connect } from 'react-redux';
 
@@ -11,7 +11,9 @@ import Aside from './Aside';
 import s from './index.scss';
 import Section from './Section';
 import { log } from '@/FlyerLog';
-import $http from '@/utils/HttpService';
+import $http, { BASE_URL } from '@/utils/HttpService';
+import { formatImageUrl, randomImage } from '@/api/image.api';
+import { ImageDto } from '@/api/dto/common.dto';
 
 interface Props {
   setNavShow?: Function;
@@ -41,19 +43,22 @@ const Home: React.FC<Props> = ({ setNavShow }) => {
 
   const [poem, setPoem] = useSafeState(new Array<string>());
   const [backgroundUrl, setBackgroundUrl] = useSafeState("")
+  const {data, loading} = useRequest(() => randomImage({
+    type: "pc",
+    num: 1
+  }))
 
   useMount(() => {
     getPoems(3).then((res: string[]) => { setPoem(res) });
-    $http.post('/api/images', {
-      num: 1,
-      sort: 'pc'
-  }).then(res => {
-    setBackgroundUrl("https://tvax4.sinaimg.cn/large/ec43126fgy1gwxgbt92hrj21hc0u0njz.jpg")
-    //setBackgroundUrl(res.data.data[0].url)
-  }).catch(err => console.log(err)
-  )
   });
 
+  useUpdateEffect(() => {
+    if (data?.data[0]) {
+      const image = data?.data[0] as ImageDto
+      setBackgroundUrl(formatImageUrl(image))
+    }
+   
+  }, [loading])
   return (
     <>
       <div style={{display:'flex', width:'100%', height:'100%', position:'relative'}}>

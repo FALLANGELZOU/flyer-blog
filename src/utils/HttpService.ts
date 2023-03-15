@@ -12,6 +12,13 @@ const $http = axios.create({
     timeout: 5000
 })
 
+export const apiUrl = (path: string) => {
+    if (path.length>0 && path[0] == "/") {
+        return BASE_URL + path.slice(1, path.length)
+    }
+    return BASE_URL + path
+}
+
 // 请求拦截器 在发起http请求之前的一些操作
 // 1、发送请求之前，加载一些组件
 // 2、某些请求需要携带token，如果说没有没有携带，直接跳转到登录页面
